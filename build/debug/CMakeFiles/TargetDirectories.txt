@@ -1,3 +1,0 @@
-/home/scott/code/c++/breakout/build/debug/CMakeFiles/rebuild_cache.dir
-/home/scott/code/c++/breakout/build/debug/CMakeFiles/breakout.dir
-/home/scott/code/c++/breakout/build/debug/CMakeFiles/edit_cache.dir

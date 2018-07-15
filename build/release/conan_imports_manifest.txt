@@ -1,7 +1,0 @@
-1531639275
-/home/scott/code/c++/breakout/build/release/install/bin/libSDL2-2.0.so: edf6a31a0cf5c865a992e45eee8bc1f1
-/home/scott/code/c++/breakout/build/release/install/bin/libSDL2-2.0.so.0: edf6a31a0cf5c865a992e45eee8bc1f1
-/home/scott/code/c++/breakout/build/release/install/bin/libSDL2-2.0.so.0.8.0: edf6a31a0cf5c865a992e45eee8bc1f1
-/home/scott/code/c++/breakout/build/release/install/bin/libfmt.so: 0198c419b0a5c6db7ef884665cabda91
-/home/scott/code/c++/breakout/build/release/install/bin/libfmt.so.5: 0198c419b0a5c6db7ef884665cabda91
-/home/scott/code/c++/breakout/build/release/install/bin/libfmt.so.5.1.0: 0198c419b0a5c6db7ef884665cabda91
