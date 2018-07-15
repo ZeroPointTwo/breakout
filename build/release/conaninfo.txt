@@ -1,0 +1,68 @@
+[settings]
+    arch=x86_64
+    build_type=Release
+    compiler=clang
+    compiler.libcxx=libstdc++11
+    compiler.version=6.0
+    os=Linux
+
+[requires]
+    catch2/2.Y.Z
+    fmt/5.Y.Z
+    imgui/1.Y.Z
+    sdl2/2.Y.Z
+
+[options]
+
+
+[full_settings]
+    arch=x86_64
+    arch_build=x86_64
+    build_type=Release
+    compiler=clang
+    compiler.libcxx=libstdc++11
+    compiler.version=6.0
+    os=Linux
+    os_build=Linux
+
+[full_requires]
+    catch2/2.2.2@bincrafters/stable:5ab84d6acfe1f23c4fae0ab88f26e3a396351ac9
+    fmt/5.1.0@bincrafters/stable:996ea8408e0c0069e91302635c90f50270a2a97b
+    imgui/1.61@bincrafters/stable:1f6e0209a27dccc2729e2a3f36e0964d7aa48cfb
+    sdl2/2.0.8@bincrafters/stable:4ccbc2db1180c309921c0bbf78d5d5de51a38d89
+
+[full_options]
+    fmt:fPIC=True
+    fmt:header_only=False
+    fmt:shared=True
+    fmt:with_cpp14=False
+    imgui:fPIC=True
+    imgui:shared=False
+    sdl2:alsa=True
+    sdl2:arts=False
+    sdl2:directfb=False
+    sdl2:esd=False
+    sdl2:fPIC=True
+    sdl2:iconv=False
+    sdl2:jack=True
+    sdl2:mir=False
+    sdl2:nas=False
+    sdl2:pulse=True
+    sdl2:sdl2main=True
+    sdl2:shared=True
+    sdl2:wayland=False
+    sdl2:x11=True
+    sdl2:xcursor=True
+    sdl2:xinerama=True
+    sdl2:xinput=True
+    sdl2:xrandr=True
+    sdl2:xscrnsaver=True
+    sdl2:xshape=True
+    sdl2:xvm=True
+
+[recipe_hash]
+
+
+[env]
+    CC=clang
+    CXX=clang++
