@@ -1,13 +1,39 @@
 #include <iostream>
 
-#include "SDL2/SDL.h"    // NOLINT
+#include "SDL2/SDL.h"  // NOLINT
 
 #pragma warning(push)
-#pragma warning(disable:4127)
+#pragma warning(disable : 4127)
 #include "fmt/format.h"  // NOLINT
 #pragma warning(pop)
 
 template<typename... T> void UNUSED_ARGS(T&&...) {}  // NOLINT(readability-named-parameter)
+
+#if _DEBUG
+namespace Debug
+{
+  template<typename... T> void Assert(bool condition, const char* str_condition, const char* format, T&&... args)
+  {
+    if (!condition)
+    {
+      auto message = fmt::format(format, std::forward<T>(args)...);
+      fmt::print("Assertion: {} - {}\n", str_condition, message);
+    }
+  }
+
+#define Assert(condition, message, ...)                         \
+  if (!condition)                                               \
+  {                                                             \
+    static bool _local_enabled = true;                          \
+    Debug::Assert(condition, #condition, message, __VA_ARGS__); \
+    if (_local_enabled) { __debugbreak(); }                     \
+  }
+#else
+#define Assert()
+#endif
+}
+
+template<typename... T> void Message(T&&... args) { fmt::print(std::forward<T>(args)...); }
 
 // screen dimension constants
 const int SCREEN_WIDTH  = 640;
@@ -21,6 +47,9 @@ bool init()
 {
   // result of initialization
   bool success = true;
+
+  Message("Print {}\n", 10);
+  for (auto i = 0; i < 5; ++i) { Assert(false, "Print {}\n", 10); }
 
   // Intialize SDL
   if (SDL_Init(SDL_INIT_VIDEO) < 0)
