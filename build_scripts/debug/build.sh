@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
 pushd ../../build/debug
-cmake --build .
+cmake --build . --config Debug
 popd
 
