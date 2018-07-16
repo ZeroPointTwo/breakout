@@ -1,7 +1,11 @@
 #include <iostream>
 
 #include "SDL2/SDL.h"    // NOLINT
+
+#pragma warning(push)
+#pragma warning(disable:4127)
 #include "fmt/format.h"  // NOLINT
+#pragma warning(pop)
 
 template<typename... T> void UNUSED_ARGS(T&&...) {}  // NOLINT(readability-named-parameter)
 
