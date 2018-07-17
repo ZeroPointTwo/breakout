@@ -2,13 +2,13 @@
 
 ## 17 July 2018
 
-* Discuss Git
-	* Create a new repo on Github
-	* Clone a repo
-		* Git Bash
-			* `git clone location`
-		* Git Gui
-	* Clone the [breakout](https://github.com/ZeroPointTwo/breakout) repo
+* ~~Discuss Git~~
+	* ~~Create a new repo on Github~~
+	* ~~Clone a repo~~
+		* ~~Git Bash~~
+			* ~~`git clone location`~~
+		* ~~Git Gui~~
+	* ~~Clone the [breakout](https://github.com/ZeroPointTwo/breakout) repo~~
 	* Create a Day1 branch
 		* `git branch origin/master day1`
 	* Make a readme change
