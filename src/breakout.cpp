@@ -28,10 +28,10 @@ namespace Debug
     Debug::Assert(condition, #condition, message, __VA_ARGS__); \
     if (_local_enabled) { __debugbreak(); }                     \
   }
+}  // namespace Debug
 #else
-#define Assert()
+#define Assert(...)
 #endif
-}
 
 template<typename... T> void Message(T&&... args) { fmt::print(std::forward<T>(args)...); }
 
