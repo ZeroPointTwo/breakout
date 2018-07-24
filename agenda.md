@@ -1,5 +1,14 @@
 # Agenda
 
+## Documents
+* Git
+	* [Command help](https://git-scm.com/docs)
+	* [Visual Command Cheat Sheet](http://ndpsoftware.com/git-cheatsheet.html): Click on different work stages to see how the different commands relate.
+	* [Git for Perforce Users](https://cedrics.gitbooks.io/git-for-perforce-users/content/index.html): I don't know enough Perforce to say if this is good, but it seemed helpful.
+	* [Visualizing Git](http://git-school.github.io/visualizing-git/): Lets you issue Git commands and displays a graph of how all of the nodes are affected.
+* Github
+	* Basic [Github Tutorial](https://guides.github.com/activities/hello-world/)
+  
 ## 24 July 2018
 
 * Discuss Git
