@@ -33,7 +33,10 @@ namespace Debug
 #define Assert(...)
 #endif
 
-template<typename... T> void Message(T&&... args) { fmt::print(std::forward<T>(args)...); }
+template<typename... T> void Message(T&&... args)
+{
+  fmt::print(std::forward<T>(args)...);  // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+}
 
 // screen dimension constants
 const int SCREEN_WIDTH  = 640;
