@@ -8,7 +8,14 @@
 	* [Visualizing Git](http://git-school.github.io/visualizing-git/): Lets you issue Git commands and displays a graph of how all of the nodes are affected.
 * Github
 	* Basic [Github Tutorial](https://guides.github.com/activities/hello-world/)
-  
+
+## 14 August 2018
+	* Review clang-format
+	* Review clang-tidy
+	* Review git hooks
+	* Define Breakout requirements
+	* Start coding
+
 ## 24 July 2018
 
 * Discuss Git
