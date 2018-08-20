@@ -2,8 +2,8 @@
 
 using namespace Breakout;
 
-Object::Object() : pos({0, 0}) {}
+Object::Object() : _pos({0, 0}) {}
 
-const SDL_Point& Object::GetPos() const { return pos; }
+const SDL_Point& Object::GetPos() const { return _pos; }
 
-void Object::SetPos(const SDL_Point& _pos) { pos = _pos; }
+void Object::SetPos(const SDL_Point& pos) { _pos = pos; }
