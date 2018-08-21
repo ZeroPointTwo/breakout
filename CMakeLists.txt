@@ -10,7 +10,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install/bin")
 
-add_executable(breakout src/breakout.cpp)
+add_executable(breakout src/breakout.cpp src/Object.h src/Object.cpp src/Component.h src/Component.cpp)
 
 find_package(sdl2)
 find_package(fmt)
