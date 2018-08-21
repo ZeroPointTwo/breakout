@@ -1,5 +1,5 @@
 #include "Component.h"
 
-using namespace Breakout;
+using Breakout::Component;
 
 Component::Component() {}

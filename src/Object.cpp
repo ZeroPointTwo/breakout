@@ -1,6 +1,6 @@
 #include "Object.h"
 
-using namespace Breakout;
+using Breakout::Object;
 
 Object::Object() : _pos({0, 0}) {}
 
