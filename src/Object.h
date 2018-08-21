@@ -15,7 +15,7 @@ namespace Breakout
     void             SetPos(const SDL_Point& pos);
 
     private:
-    SDL_Point pos;
+    SDL_Point _pos;
   };
 }  // namespace Breakout
 
