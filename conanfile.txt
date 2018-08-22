@@ -4,6 +4,7 @@ catch2/2.2.2@bincrafters/stable
 imgui/1.61@bincrafters/stable
 sdl2/2.0.8@bincrafters/stable
 fmt/5.1.0@bincrafters/stable
+sfml/2.5.0@bincrafters/stable
 
 [options]
 sdl2:shared=False
