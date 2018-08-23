@@ -1,4 +1,6 @@
 
+:: test
+
 pushd ..\..\build\debug
 cmake --build . --config Debug
 popd
