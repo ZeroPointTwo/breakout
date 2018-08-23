@@ -9,6 +9,8 @@ sfml/2.5.0@bincrafters/stable
 [options]
 sdl2:shared=False
 fmt:shared=False
+sfml:window=True
+sfml:graphics=True
 
 [generators]
 cmake_find_package

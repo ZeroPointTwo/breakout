@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "SDL2/SDL.h"  // NOLINT
+#include "SFML/Graphics.hpp"
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
@@ -39,13 +39,12 @@ template<typename... T> void Message(T&&... args)
 }
 
 // screen dimension constants
-const int SCREEN_WIDTH  = 640;
-const int SCREEN_HEIGHT = 480;
+const int         SCREEN_WIDTH  = 640;
+const int         SCREEN_HEIGHT = 480;
+const char*       WINDOW_TITLE  = "Breakout";
+sf::RenderWindow* MainWindow    = nullptr;
 
-SDL_Window*   gWindow   = nullptr;
-SDL_Renderer* gRenderer = nullptr;
-
-// initialize sdl
+// initialize sfml
 bool init()
 {
   // result of initialization
@@ -54,51 +53,18 @@ bool init()
   Message("Print {}\n", 10);
   for (auto i = 0; i < 5; ++i) { Assert(false, "Print {}\n", 10); }
 
-  // Intialize SDL
-  if (SDL_Init(SDL_INIT_VIDEO) < 0)
-  {
-    fmt::print("SDL could not initialize! error: {}\n", SDL_GetError());
-    success = false;
-  }
-  else
-  {
-    // create window
-    gWindow = SDL_CreateWindow(
-        "SDL Skeleton", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
-
-    if (gWindow == nullptr)
-    {
-      fmt::print("Window could not be created! error: {}\n", SDL_GetError());
-      success = false;
-    }
-    else
-    {
-      // create renderer for window
-      gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
-
-      if (gRenderer == nullptr)
-      {
-        fmt::print("Renderer could not be created! error: {}\n", SDL_GetError());
-        success = false;
-      }
-      else
-      {
-        SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);  // RGBA
-      }
-    }
-  }
+  MainWindow = new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), sf::String(WINDOW_TITLE));
 
   return success;
 }
 
-void close()
+void Quit()
 {
-  SDL_DestroyRenderer(gRenderer);
-  SDL_DestroyWindow(gWindow);
-  gRenderer = nullptr;
-  gWindow   = nullptr;
-
-  SDL_Quit();
+  if (MainWindow != nullptr)
+  {
+    delete MainWindow;
+    MainWindow = nullptr;
+  }
 }
 
 int main(int argc, char* argv[])
@@ -108,34 +74,27 @@ int main(int argc, char* argv[])
   if (!init()) { fmt::print("Failed to initialize!\n"); }
   else
   {
-    bool quit = false;
+    sf::CircleShape testCircle(1.f);  // Create circle of radius 1
+    testCircle.setScale(
+        sf::Vector2f(static_cast<float>(SCREEN_WIDTH) * 0.5f,
+                     static_cast<float>(SCREEN_HEIGHT) * 0.5f));  // Scale the circle to make an ellipses
+    testCircle.setFillColor(sf::Color::Green);
 
-    SDL_Event e;
-
-    while (!quit)
+    while (MainWindow->isOpen())
     {
-      // handle event on queue
-      while (SDL_PollEvent(&e) != 0)
+      sf::Event sfEvent;
+      while (MainWindow->pollEvent(sfEvent))
       {
-        // user request to quit
-        if (e.type == SDL_QUIT) { quit = true; }
-
-        // clear screen
-        SDL_SetRenderDrawColor(gRenderer, 0, 0, 0, 0);
-        SDL_RenderClear(gRenderer);
-
-        auto r = SDL_Rect{100, 100, 200, 200};
-
-        SDL_SetRenderDrawColor(gRenderer, 0, 0, 128, 0);
-        SDL_RenderFillRect(gRenderer, &r);
-
-        // update screen
-        SDL_RenderPresent(gRenderer);
+        if (sfEvent.type == sf::Event::Closed) { MainWindow->close(); }
       }
+
+      MainWindow->clear();  // Remove all drawn content from window
+      MainWindow->draw(testCircle);
+      MainWindow->display();  // Present the window
     }
   }
 
-  close();
+  Quit();
 
   return 0;
 }
