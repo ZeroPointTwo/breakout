@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "SFML\Graphics.hpp"
+#include "SFML/Graphics.hpp"
 
 #pragma warning(push)
 #pragma warning(disable : 4127)
