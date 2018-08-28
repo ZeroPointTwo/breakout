@@ -35,7 +35,8 @@ namespace Debug
 
 template<typename... T> void Message(T&&... args)
 {
-  fmt::print(std::forward<T>(args)...);  // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+  fmt::print(
+      std::forward<T>(args)...);  // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay, hicpp-no-array-decay)
 }
 
 // screen dimension constants
