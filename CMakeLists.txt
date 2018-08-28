@@ -14,6 +14,8 @@ add_executable(breakout src/breakout.cpp src/Object.h src/Object.cpp src/Compone
 
 find_package(sdl2)
 find_package(fmt)
-target_link_libraries(breakout sdl2::sdl2 fmt::fmt)
+find_package(sfml)
+
+target_link_libraries(breakout sdl2::sdl2 fmt::fmt sfml::sfml)
 
 target_compile_options(breakout PRIVATE "/W4" "/WX")
