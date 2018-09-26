@@ -1,43 +1,9 @@
 #include <iostream>
 
+#include "Engine.h"
+#include "Game.h"
 #include "SFML/Graphics.hpp"
-
-#pragma warning(push)
-#pragma warning(disable : 4127)
-#include "fmt/format.h"  // NOLINT
-#pragma warning(pop)
-
-template<typename... T> void UNUSED_ARGS(T&&...) {}  // NOLINT(readability-named-parameter)
-
-#if _DEBUG
-namespace Debug
-{
-  template<typename... T> void Assert(bool condition, const char* str_condition, const char* format, T&&... args)
-  {
-    if (!condition)
-    {
-      auto message = fmt::format(format, std::forward<T>(args)...);
-      fmt::print("Assertion: {} - {}\n", str_condition, message);
-    }
-  }
-
-#define Assert(condition, message, ...)                         \
-  if (!condition)                                               \
-  {                                                             \
-    static bool _local_enabled = true;                          \
-    Debug::Assert(condition, #condition, message, __VA_ARGS__); \
-    if (_local_enabled) { __debugbreak(); }                     \
-  }
-}  // namespace Debug
-#else
-#define Assert(...)
-#endif
-
-template<typename... T> void Message(T&&... args)
-{
-  fmt::print(
-      std::forward<T>(args)...);  // NOLINT(cppcoreguidelines-pro-bounds-array-to-pointer-decay, hicpp-no-array-decay)
-}
+#include "Util.h"
 
 // screen dimension constants
 const int         SCREEN_WIDTH  = 640;
@@ -45,57 +11,86 @@ const int         SCREEN_HEIGHT = 480;
 const char*       WINDOW_TITLE  = "Breakout";
 sf::RenderWindow* MainWindow    = nullptr;
 
+class IApplication
+{
+  public:
+    virtual ~IApplication() {}
+    virtual bool Init()     = 0;
+    virtual void Update()   = 0;
+    virtual void Shutdown() = 0;
+};
+
+class GameApplication : public IApplication
+{
+  public:
+    GameApplication();
+    ~GameApplication() {}
+
+    // Create window and game
+    bool Init() override;
+
+    void Update() override;
+    void Shutdown() override;
+
+  private:
+    std::shared_ptr<Breakout::Game>   game;
+    std::shared_ptr<sf::RenderWindow> mainWindow;
+};
+
 // initialize sfml
 bool init()
 {
-  // result of initialization
-  bool success = true;
+    // result of initialization
+    bool success = true;
 
-  Message("Print {}\n", 10);
-  for (auto i = 0; i < 5; ++i) { Assert(false, "Print {}\n", 10); }
+    Message("Print {}\n", 10);
+    for (auto i = 0; i < 5; ++i) { Assert(true, "Print {}\n", 10); }
 
-  MainWindow = new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), sf::String(WINDOW_TITLE));
+    MainWindow = new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), sf::String(WINDOW_TITLE));
 
-  return success;
+    // @! TODO START HERE - FIXME PLZ
+    auto _Engine(Breakout::Engine(MainWindow));
+
+    return success;
 }
 
 void Quit()
 {
-  if (MainWindow != nullptr)
-  {
-    delete MainWindow;
-    MainWindow = nullptr;
-  }
+    if (MainWindow != nullptr)
+    {
+        delete MainWindow;
+        MainWindow = nullptr;
+    }
 }
 
 int main(int argc, char* argv[])
 {
-  UNUSED_ARGS(argc, argv);
+    UNUSED_ARGS(argc, argv);
 
-  if (!init()) { fmt::print("Failed to initialize!\n"); }
-  else
-  {
-    sf::CircleShape testCircle(1.f);  // Create circle of radius 1
-    testCircle.setScale(
-        sf::Vector2f(static_cast<float>(SCREEN_WIDTH) * 0.5f,
-                     static_cast<float>(SCREEN_HEIGHT) * 0.5f));  // Scale the circle to make an ellipses
-    testCircle.setFillColor(sf::Color::Green);
-
-    while (MainWindow->isOpen())
+    if (!init()) { fmt::print("Failed to initialize!\n"); }
+    else
     {
-      sf::Event sfEvent;
-      while (MainWindow->pollEvent(sfEvent))
-      {
-        if (sfEvent.type == sf::Event::Closed) { MainWindow->close(); }
-      }
+        sf::CircleShape testCircle(1.f);  // Create circle of radius 1
+        testCircle.setScale(
+            sf::Vector2f(static_cast<float>(SCREEN_WIDTH) * 0.5f,
+                         static_cast<float>(SCREEN_HEIGHT) * 0.5f));  // Scale the circle to make an ellipses
+        testCircle.setFillColor(sf::Color::Green);
 
-      MainWindow->clear();  // Remove all drawn content from window
-      MainWindow->draw(testCircle);
-      MainWindow->display();  // Present the window
+        while (MainWindow->isOpen())
+        {
+            sf::Event sfEvent = {};
+            while (MainWindow->pollEvent(sfEvent))
+            {
+                if (sfEvent.type == sf::Event::Closed) { MainWindow->close(); }
+            }
+
+            MainWindow->clear();  // Remove all drawn content from window
+            MainWindow->draw(testCircle);
+            MainWindow->display();  // Present the window
+        }
     }
-  }
 
-  Quit();
+    Quit();
 
-  return 0;
+    return 0;
 }

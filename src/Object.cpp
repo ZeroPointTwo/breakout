@@ -2,8 +2,20 @@
 
 using Breakout::Object;
 
-Object::Object() : _pos({0, 0}) {}
+Object::Object() {}
 
-const SDL_Point& Object::GetPos() const { return _pos; }
+Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type)
+{
+    BaseComponent* ret = nullptr;
 
-void Object::SetPos(const SDL_Point& pos) { _pos = pos; }
+    for (auto& compIter : components)
+    {
+        if (compIter->GetType() == type)
+        {
+            ret = compIter.get();
+            break;
+        }
+    }
+
+    return ret;
+}
