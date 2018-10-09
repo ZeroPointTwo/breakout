@@ -22,7 +22,7 @@ class IApplication
 class GameApplication : public IApplication
 {
   public:
-    GameApplication(std::shared_ptr<Breakout::Game> inGame);
+    GameApplication();
     virtual ~GameApplication() {}
 
     // Create window and game
@@ -45,8 +45,9 @@ int main(int argc, char* argv[])
     // std::shared_ptr<Breakout::BreakoutGame> game = std::make_shared<Breakout::BreakoutGame>();
     // GameApplication                         appTwo(game);
 
+    // Scott this is all your fault.
     // Move constructor
-    GameApplication app(std::make_shared<Breakout::BreakoutGame>());
+    GameApplication app; //std::make_shared<Breakout::BreakoutGame>()
 
     if (!app.Init())
     {
@@ -60,25 +61,26 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-GameApplication::GameApplication(std::shared_ptr<Breakout::Game> inGame) : game(inGame) {}
+GameApplication::GameApplication(){}
 
 bool GameApplication::Init()
 {
     mainWindow = std::shared_ptr<sf::RenderWindow>(
         new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), sf::String(WINDOW_TITLE)));
-
-    // engine = std::shared_ptr<Breakout::Engine>(new Breakout::Engine(mainWindow));
+    game = std::make_shared<Breakout::BreakoutGame>();
+    game->Init(mainWindow);
+    engine = std::shared_ptr<Breakout::Engine>(new Breakout::Engine(mainWindow.get()));
 
     return true;
 }
 
 void GameApplication::Run()
 {
-    sf::CircleShape testCircle(1.f);  // Create circle of radius 1
+    /*sf::CircleShape testCircle(1.f);  // Create circle of radius 1
     testCircle.setScale(
         sf::Vector2f(static_cast<float>(SCREEN_WIDTH) * 0.5f,
                      static_cast<float>(SCREEN_HEIGHT) * 0.5f));  // Scale the circle to make an ellipses
-    testCircle.setFillColor(sf::Color::Green);
+    testCircle.setFillColor(sf::Color::Green);*/
 
     while (mainWindow->isOpen())
     {
@@ -89,7 +91,9 @@ void GameApplication::Run()
         }
 
         mainWindow->clear();  // Remove all drawn content from window
-        mainWindow->draw(testCircle);
+
+        engine->Update(.016f, game->_gameObjects);
+
         mainWindow->display();  // Present the window
     }
 }

@@ -4,7 +4,7 @@ using Breakout::Object;
 
 Object::Object() {}
 
-Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type)
+Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type) const
 {
     BaseComponent* ret = nullptr;
 
@@ -18,4 +18,9 @@ Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type)
     }
 
     return ret;
+}
+
+void Breakout::Object::AddComponent(std::shared_ptr<BaseComponent> component)
+{
+    components.push_back(component);
 }

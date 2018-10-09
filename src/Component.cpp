@@ -30,6 +30,11 @@ void Breakout::RenderComponent::Update(float dt)
 
 void Breakout::RenderComponent::UnInit() {}
 
+sf::Shape* Breakout::RenderComponent::GetShape()
+{
+    return RenderObject.get();
+}
+
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
 //-------------------------------------

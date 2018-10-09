@@ -2,6 +2,7 @@
 
 #include <memory>
 #include "SFML/Graphics.hpp"
+#include "Object.h"
 
 namespace Breakout
 {
@@ -16,6 +17,7 @@ namespace Breakout
         virtual void EndGame()                                         = 0;
 
         std::shared_ptr<sf::RenderWindow> _sfWindow;
+        std::vector<Object> _gameObjects;
     };
 
     class BreakoutGame : public Game

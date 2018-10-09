@@ -46,6 +46,8 @@ namespace Breakout
         virtual void Update(float dt) override;
         virtual void UnInit() override;
 
+        sf::Shape* GetShape();
+
       protected:
         std::shared_ptr<sf::Shape> RenderObject;
     };

@@ -13,7 +13,9 @@ namespace Breakout
         Object();
         virtual ~Object() = default;
 
-        BaseComponent* GetComponent(EComponentType type);
+        BaseComponent* GetComponent(EComponentType type) const;
+
+        void AddComponent(std::shared_ptr<BaseComponent> component);
 
       protected:
         std::vector<std::shared_ptr<BaseComponent>> components;

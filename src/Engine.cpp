@@ -3,15 +3,14 @@
 
 Breakout::Engine::Engine(sf::RenderWindow* window)
 {
-    // renderSystem = RenderSystem(window);
-    UNUSED_ARGS(window);
+    renderSystem = std::make_unique<RenderSystem>(window);
 }
 
-void Breakout::Engine::Update(float deltaTime)
+void Breakout::Engine::Update(float deltaTime, const std::vector<Object>& gameObjects)
 {
     if (renderSystem != nullptr)
     {
         // please don't compress me
-        renderSystem->Update(deltaTime);
+        renderSystem->Update(deltaTime, gameObjects);
     }
 }
