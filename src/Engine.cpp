@@ -1,12 +1,9 @@
 #include "Engine.h"
 #include "Util.h"
 
-Breakout::Engine::Engine(sf::RenderWindow* window)
-{
-    renderSystem = std::make_unique<RenderSystem>(window);
-}
+Breakout::Engine::Engine(sf::RenderWindow* window) { renderSystem = std::make_unique<RenderSystem>(window); }
 
-void Breakout::Engine::Update(float deltaTime, const std::vector<Object>& gameObjects)
+void Breakout::Engine::Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects)
 {
     if (renderSystem != nullptr)
     {

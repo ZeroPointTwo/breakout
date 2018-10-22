@@ -13,7 +13,7 @@ namespace Breakout
         Engine(sf::RenderWindow* window);
         ~Engine() = default;
 
-        void Update(float deltaTime, const std::vector<Object>& gameObjects);
+        void Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects);
 
         std::unique_ptr<RenderSystem> renderSystem;
     };

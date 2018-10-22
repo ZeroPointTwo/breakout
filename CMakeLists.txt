@@ -10,8 +10,32 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install/bin")
 
-add_executable(breakout src/breakout.cpp src/Object.h src/Object.cpp src/Component.h src/Component.cpp src/Util.h src/RenderSystem.h src/RenderSystem.cpp
-                src/Engine.cpp src/Engine.h src/Game.cpp src/Game.h)
+set(UNITY_BUILD TRUE)
+
+set(BREAKOUT_FILES
+    src/breakout.cpp
+    src/Object.h
+    src/Object.cpp
+    src/Component.h
+    src/Component.cpp
+    src/Util.h
+    src/RenderSystem.h
+    src/RenderSystem.cpp
+    src/Engine.cpp
+    src/Engine.h
+    src/Game.cpp
+    src/Game.h
+    src/ObjectFactory.h
+    src/ObjectFactory.cpp)
+
+if(NOT UNITY_BUILD)
+    set(BUILD_FILES ${BREAKOUT_FILES})
+else(NOT UNITY_BUILD)
+    set_source_files_properties(${BREAKOUT_FILES} PROPERTIES HEADER_FILE_ONLY TRUE)
+    set(BUILD_FILES src/unity_build.cpp ${BREAKOUT_FILES})
+endif(NOT UNITY_BUILD)
+
+add_executable(breakout ${BUILD_FILES})
 
 find_package(sdl2)
 find_package(fmt)
@@ -20,3 +44,5 @@ find_package(sfml)
 target_link_libraries(breakout sdl2::sdl2 fmt::fmt sfml::sfml)
 
 target_compile_options(breakout PRIVATE "/W4" "/WX")
+
+target_compile_definitions(breakout PRIVATE USE_UNITY_BUILD=1)

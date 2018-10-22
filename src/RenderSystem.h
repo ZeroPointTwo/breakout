@@ -11,13 +11,12 @@ namespace Breakout
     class RenderSystem
     {
       public:
-        RenderSystem(sf::RenderWindow* window);
+        RenderSystem(sf::RenderWindow* _window);
         ~RenderSystem() = default;
 
-        void Update(float deltaTime, const std::vector<Object>& gameObjects);
+        void Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects);
 
       protected:
-
-          sf::RenderWindow* window;
+        sf::RenderWindow* window;
     };
 }  // namespace Breakout

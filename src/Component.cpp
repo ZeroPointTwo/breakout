@@ -21,19 +21,11 @@ Breakout::RenderComponent::~RenderComponent() {}
 
 bool Breakout::RenderComponent::Init() { return true; }
 
-void Breakout::RenderComponent::Update(float dt)
-{
-    UNUSED_ARGS(dt);
-    // todo:  DRAW ME and cry
-    //                    -Joel
-}
+void Breakout::RenderComponent::Update(float dt) { UNUSED_ARGS(dt); }
 
 void Breakout::RenderComponent::UnInit() {}
 
-sf::Shape* Breakout::RenderComponent::GetShape()
-{
-    return RenderObject.get();
-}
+sf::Shape* Breakout::RenderComponent::GetShape() { return RenderObject.get(); }
 
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------

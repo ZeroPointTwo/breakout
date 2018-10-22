@@ -1,8 +1,9 @@
 #pragma once
 
 #include <memory>
-#include "SFML/Graphics.hpp"
 #include "Object.h"
+#include "ObjectFactory.h"
+#include "SFML/Graphics.hpp"
 
 namespace Breakout
 {
@@ -16,8 +17,12 @@ namespace Breakout
         virtual void BeginGame()                                       = 0;
         virtual void EndGame()                                         = 0;
 
-        std::shared_ptr<sf::RenderWindow> _sfWindow;
-        std::vector<Object> _gameObjects;
+        virtual std::vector<std::shared_ptr<Object>>& GetGameObjects() { return _gameObjects; }
+
+      protected:
+        std::shared_ptr<sf::RenderWindow>    _sfWindow;
+        std::vector<std::shared_ptr<Object>> _gameObjects;
+        std::unique_ptr<ObjectFactory>       objectFactory;
     };
 
     class BreakoutGame : public Game

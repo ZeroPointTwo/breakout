@@ -1,5 +1,4 @@
-#ifndef BREAKOUT_OBJECT_H
-#define BREAKOUT_OBJECT_H
+#pragma once
 
 #include <vector>
 #include "Component.h"
@@ -21,5 +20,3 @@ namespace Breakout
         std::vector<std::shared_ptr<BaseComponent>> components;
     };
 }  // namespace Breakout
-
-#endif  // !BREAKOUT_OBJECT_HS

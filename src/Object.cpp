@@ -20,7 +20,4 @@ Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type) con
     return ret;
 }
 
-void Breakout::Object::AddComponent(std::shared_ptr<BaseComponent> component)
-{
-    components.push_back(component);
-}
+void Breakout::Object::AddComponent(std::shared_ptr<BaseComponent> component) { components.push_back(component); }
