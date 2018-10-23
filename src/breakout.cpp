@@ -5,6 +5,8 @@
 #include "SFML/Graphics.hpp"
 #include "Util.h"
 
+#include "nlohmann/json.hpp"
+
 // screen dimension constants
 const int   SCREEN_WIDTH  = 640;
 const int   SCREEN_HEIGHT = 480;
@@ -59,8 +61,20 @@ GameApplication::GameApplication() {}
 
 bool GameApplication::Init()
 {
+    auto app_config = R"(
+    {
+        "app_name": "Breakout",
+        "width": 640,
+        "height": 480
+    }
+    )"_json;
+
+    std::string  app_name   = app_config["app_name"];
+    std::int32_t app_width  = app_config["app_width"];
+    std::int32_t app_height = app_config["app_height"];
+
     mainWindow = std::shared_ptr<sf::RenderWindow>(
-        new sf::RenderWindow(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), sf::String(WINDOW_TITLE)));
+        new sf::RenderWindow(sf::VideoMode(app_width, app_height), sf::String(app_name)));
     game = std::make_shared<Breakout::BreakoutGame>();
     game->Init(mainWindow);
     engine = std::make_shared<Breakout::Engine>(mainWindow.get());

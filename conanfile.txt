@@ -5,6 +5,7 @@ imgui/1.61@bincrafters/stable
 sdl2/2.0.8@bincrafters/stable
 fmt/5.1.0@bincrafters/stable
 sfml/2.5.0@bincrafters/stable
+jsonformoderncpp/3.3.0@vthiery/stable
 
 [options]
 sdl2:shared=False

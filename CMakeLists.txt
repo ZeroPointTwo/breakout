@@ -37,12 +37,10 @@ endif(NOT UNITY_BUILD)
 
 add_executable(breakout ${BUILD_FILES})
 
-find_package(sdl2)
 find_package(fmt)
 find_package(sfml)
+find_package(jsonformoderncpp)
 
-target_link_libraries(breakout sdl2::sdl2 fmt::fmt sfml::sfml)
+target_link_libraries(breakout fmt::fmt sfml::sfml jsonformoderncpp::jsonformoderncpp)
 
 target_compile_options(breakout PRIVATE "/W4" "/WX")
-
-target_compile_definitions(breakout PRIVATE USE_UNITY_BUILD=1)

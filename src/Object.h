@@ -2,7 +2,6 @@
 
 #include <vector>
 #include "Component.h"
-#include "SDL2/SDL.h"
 
 namespace Breakout
 {
