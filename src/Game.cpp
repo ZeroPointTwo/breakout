@@ -32,10 +32,12 @@ void Breakout::BreakoutGame::BeginGame()
     EndGame();
     Init(_sfWindow);
 
-    // TODO: Start here next week
-    for (int i = 0; i < 10; ++i)
-    {
-        for (int j = 0; j < 10; ++j)
-        { _gameObjects.push_back(objectFactory->TestCreateBrick(i * 50.f, j * 20.f, sf::Color::Red)); }
-    }
+    // for (int i = 0; i < 10; ++i)
+    //{
+    //    for (int j = 0; j < 10; ++j)
+    //    {
+    //        // formatting
+    //        _gameObjects.push_back(objectFactory->TestCreateBrick(i * 51.f, j * 21.f, sf::Color::Red));
+    //    }
+    //}
 }
