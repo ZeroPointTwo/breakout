@@ -1,6 +1,7 @@
 #include "Game.h"
 #include "Component.h"
 #include "SFML/Graphics.hpp"
+#include "nlohmann/json.hpp"
 
 bool Breakout::BreakoutGame::Init(std::shared_ptr<sf::RenderWindow>& sfWindow)
 {
@@ -32,6 +33,35 @@ void Breakout::BreakoutGame::BeginGame()
     EndGame();
     Init(_sfWindow);
 
+    auto level = R"(
+    {
+        "level_data" : "--RRR---RRR--",
+        "brick_height" : 10,
+        "brick_width" : 15,
+        "brick_gap" : 1
+    }
+    )"_json;
+
+    std::string  level_data   = level["level_data"];
+    std::int32_t brick_width  = level["brick_width"];
+    std::int32_t brick_height = level["brick_height"];
+    std::int32_t brick_gap    = level["brick_gap"];
+
+    sf::Vector2f position(0.0f, 0.0f);
+    for (auto element : level_data)
+    {
+        switch (element)
+        {
+            case 'R':
+                _gameObjects.push_back(objectFactory->TestCreateBrick(
+                    position.x, position.y, (float)brick_width, (float)brick_height, sf::Color::Red));
+                break;
+            case '-': break;
+            default: break;
+        }
+        position.x += brick_width + brick_gap;
+    }
+    position.y += brick_height + brick_gap;
     // for (int i = 0; i < 10; ++i)
     //{
     //    for (int j = 0; j < 10; ++j)

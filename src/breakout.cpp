@@ -70,8 +70,8 @@ bool GameApplication::Init()
     )"_json;
 
     std::string  app_name   = app_config["app_name"];
-    std::int32_t app_width  = app_config["app_width"];
-    std::int32_t app_height = app_config["app_height"];
+    std::int32_t app_width  = app_config["width"];
+    std::int32_t app_height = app_config["height"];
 
     mainWindow = std::shared_ptr<sf::RenderWindow>(
         new sf::RenderWindow(sf::VideoMode(app_width, app_height), sf::String(app_name)));
