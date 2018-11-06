@@ -16,5 +16,6 @@ namespace Breakout
 
         // temp create brick function
         std::shared_ptr<Object> TestCreateBrick(float x, float y, float width, float height, sf::Color color);
+        std::shared_ptr<Object> CreatePaddle(float x, float y, float width, float height, sf::Color color);
     };
 }  // namespace Breakout

@@ -12,6 +12,8 @@ namespace sf
 
 namespace Breakout
 {
+    class Object;
+
     enum EComponentType
     {
         CT_INVALID         = -1,
@@ -24,22 +26,24 @@ namespace Breakout
     class BaseComponent
     {
       public:
-        BaseComponent();
+        BaseComponent(const std::weak_ptr<Object>& _owner);
         virtual ~BaseComponent() {}
 
-        virtual bool           Init()           = 0;
-        virtual void           Update(float dt) = 0;
-        virtual void           UnInit()         = 0;
-        virtual EComponentType GetType();
+        virtual bool                  Init()           = 0;
+        virtual void                  Update(float dt) = 0;
+        virtual void                  UnInit()         = 0;
+        virtual EComponentType        GetType();
+        virtual std::weak_ptr<Object> GetOwner();
 
       protected:
-        EComponentType type;
+        EComponentType        type;
+        std::weak_ptr<Object> owner;
     };
 
     class RenderComponent : public BaseComponent
     {
       public:
-        RenderComponent(const std::shared_ptr<sf::Shape>& inRenderObject);
+        RenderComponent(const std::weak_ptr<Object>& _owner, const std::shared_ptr<sf::Shape>& inRenderObject);
         virtual ~RenderComponent() override;
 
         virtual bool Init() override;
@@ -55,7 +59,7 @@ namespace Breakout
     class PositionComponent : public BaseComponent
     {
       public:
-        PositionComponent();
+        PositionComponent(const std::weak_ptr<Object>& _owner);
         virtual ~PositionComponent() override;
 
         virtual bool Init() override;
@@ -69,6 +73,25 @@ namespace Breakout
         sf::Vector2f Position;
     };
 
+    class InputComponent : public BaseComponent
+    {
+      public:
+        InputComponent(const std::weak_ptr<Object>& _owner);
+        virtual ~InputComponent() = default;
+        virtual bool Init() override;
+        virtual void Update(float dt) override;
+        virtual void UnInit() override;
+    };
+
+    /*class CollisionComponent : public BaseComponent
+    {
+      public:
+        CollisionComponent(const std::weak_ptr<Object>& _owner);
+        virtual ~CollisionComponent() override;
+        virtual bool Init() override;
+        virtual void Update(float dt) override;
+        virtual void UnInit() override;
+    };*/
 }  // namespace Breakout
 
 #endif  // !BREAKOUT_COMPONENT_H

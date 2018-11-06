@@ -118,8 +118,8 @@ void GameApplication::Run()
         {
             Message("FPS: {}\n", fps_counter);
 
-            fps_counter   = 0;
-            seconds_timer = 0.0;
+            fps_counter = 0;
+            seconds_timer -= 1.0;
         }
 
         // Report frame time spikes

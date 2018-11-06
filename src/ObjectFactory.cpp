@@ -17,14 +17,21 @@ std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::TestCreateBrick(
     // Render component
     auto brickShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(width, height));
     brickShape->setFillColor(color);
-    std::shared_ptr<Breakout::RenderComponent> render = std::make_shared<Breakout::RenderComponent>(brickShape);
+    std::shared_ptr<Breakout::RenderComponent> render = std::make_shared<Breakout::RenderComponent>(object, brickShape);
     object->AddComponent(render);
 
     // Position component
-    std::shared_ptr<Breakout::PositionComponent> position = std::make_shared<Breakout::PositionComponent>();
+    std::shared_ptr<Breakout::PositionComponent> position = std::make_shared<Breakout::PositionComponent>(object);
     position->SetPosition(sf::Vector2f(x, y));
     object->AddComponent(position);
 
     // return it
     return object;
+}
+
+std::shared_ptr<Object> Breakout::ObjectFactory::CreatePaddle(
+    float x, float y, float width, float height, sf::Color color)
+{
+    UNUSED_ARGS(color, x, y, width, height);
+    return std::shared_ptr<Object>();
 }
