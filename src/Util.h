@@ -20,12 +20,12 @@ namespace Debug
         }
     }
 
-#define Assert(condition, message, ...)                             \
-    if (!condition)                                                 \
-    {                                                               \
-        static bool _local_enabled = true;                          \
-        Debug::Assert(condition, #condition, message, __VA_ARGS__); \
-        if (_local_enabled) { __debugbreak(); }                     \
+#define Assert(condition, message, ...)                               \
+    if (!(condition))                                                 \
+    {                                                                 \
+        static bool _local_enabled = true;                            \
+        Debug::Assert((condition), #condition, message, __VA_ARGS__); \
+        if (_local_enabled) { __debugbreak(); }                       \
     }
 }  // namespace Debug
 #else

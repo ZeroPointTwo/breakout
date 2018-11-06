@@ -3,6 +3,36 @@
 #include "SFML/Graphics.hpp"
 #include "nlohmann/json.hpp"
 
+namespace
+{
+    nlohmann::json LoadJsonFromFile(const std::string& filename)
+    {
+        nlohmann::json parsed_json = {};
+
+        FILE* file = fopen(filename.c_str(), "r");
+        Assert(file != nullptr, "Failed to open {}", filename);
+
+        if (file)
+        {
+            fseek(file, 0, SEEK_END);
+            auto file_size = ftell(file);
+            Assert(file_size > 0, "Empty file");
+
+            fseek(file, 0, SEEK_SET);
+
+            std::string buffer(file_size, 0);
+            fread((void*)buffer.data(), file_size, 1, file);
+
+            fclose(file);
+
+            parsed_json = nlohmann::json::parse(buffer.c_str());
+            Assert(!parsed_json.empty(), "Failed to parse JSON");
+        }
+
+        return parsed_json;
+    }
+}  // namespace
+
 bool Breakout::BreakoutGame::Init(std::shared_ptr<sf::RenderWindow>& sfWindow)
 {
     bool isSuccess = false;
@@ -33,35 +63,43 @@ void Breakout::BreakoutGame::BeginGame()
     EndGame();
     Init(_sfWindow);
 
-    auto level = R"(
-    {
-        "level_data" : "--RRR---RRR--",
-        "brick_height" : 10,
-        "brick_width" : 15,
-        "brick_gap" : 1
-    }
-    )"_json;
+    const auto level_filename = "../../data/level_data.json";
+    auto       level          = LoadJsonFromFile(level_filename);
 
-    std::string  level_data   = level["level_data"];
-    std::int32_t brick_width  = level["brick_width"];
-    std::int32_t brick_height = level["brick_height"];
-    std::int32_t brick_gap    = level["brick_gap"];
+    Assert(level.size() > 0, "Failed to load level data from %s.", level_filename);
+    if (level.size() == 0) { return; }
+
+    std::vector<std::string> level_data   = level["level_data"];
+    std::int32_t             brick_width  = level["brick_width"];
+    std::int32_t             brick_height = level["brick_height"];
+    std::int32_t             brick_gap    = level["brick_gap"];
+
+    Assert(brick_width > 0, "Invalid brick width: {}", brick_width);
+    Assert(brick_height > 0, "Invalid brick height: {}", brick_height);
 
     sf::Vector2f position(0.0f, 0.0f);
-    for (auto element : level_data)
+    for (auto& row : level_data)
     {
-        switch (element)
+        position.x = 0.0f;
+
+        for (auto element : row)
         {
-            case 'R':
-                _gameObjects.push_back(objectFactory->TestCreateBrick(
-                    position.x, position.y, (float)brick_width, (float)brick_height, sf::Color::Red));
-                break;
-            case '-': break;
-            default: break;
+            switch (element)
+            {
+                case 'R':
+                    _gameObjects.push_back(objectFactory->TestCreateBrick(
+                        position.x, position.y, (float)brick_width, (float)brick_height, sf::Color::Red));
+                    break;
+                case '-': break;
+                default: break;
+            }
+
+            position.x += brick_width + brick_gap;
         }
-        position.x += brick_width + brick_gap;
+
+        position.y += brick_height + brick_gap;
     }
-    position.y += brick_height + brick_gap;
+
     // for (int i = 0; i < 10; ++i)
     //{
     //    for (int j = 0; j < 10; ++j)

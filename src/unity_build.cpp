@@ -6,3 +6,4 @@
 #include "ObjectFactory.cpp"
 #include "RenderSystem.cpp"
 #include "breakout.cpp"
+#include "clock.cpp"

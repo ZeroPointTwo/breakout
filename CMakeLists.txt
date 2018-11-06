@@ -26,7 +26,9 @@ set(BREAKOUT_FILES
     src/Game.cpp
     src/Game.h
     src/ObjectFactory.h
-    src/ObjectFactory.cpp)
+    src/ObjectFactory.cpp
+    src/Clock.h
+    src/Clock.cpp)
 
 if(NOT UNITY_BUILD)
     set(BUILD_FILES ${BREAKOUT_FILES})
@@ -43,4 +45,4 @@ find_package(jsonformoderncpp)
 
 target_link_libraries(breakout fmt::fmt sfml::sfml jsonformoderncpp::jsonformoderncpp)
 
-target_compile_options(breakout PRIVATE "/W4" "/WX")
+target_compile_options(breakout PRIVATE "/W4" "/WX" "/D_CRT_SECURE_NO_WARNINGS")

@@ -1,0 +1,13 @@
+{
+	"level_data" : [ 
+		"--RRR---RRR--",
+		"RRRRRRRRRRRRR",
+		"RRRRRRRRRRRRR",
+		"-RRRRRRRRRRR-",
+		"---RRRRRRR---",
+		"-----RRR-----",
+		"------R------"],
+	"brick_height" : 15,
+	"brick_width" : 15,
+	"brick_gap" : 1
+}

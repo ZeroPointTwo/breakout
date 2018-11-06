@@ -4,13 +4,9 @@
 #include "Game.h"
 #include "SFML/Graphics.hpp"
 #include "Util.h"
+#include "clock.h"
 
 #include "nlohmann/json.hpp"
-
-// screen dimension constants
-const int   SCREEN_WIDTH  = 640;
-const int   SCREEN_HEIGHT = 480;
-const char* WINDOW_TITLE  = "Breakout";
 
 class IApplication
 {
@@ -73,9 +69,11 @@ bool GameApplication::Init()
     std::int32_t app_width  = app_config["width"];
     std::int32_t app_height = app_config["height"];
 
-    mainWindow = std::shared_ptr<sf::RenderWindow>(
-        new sf::RenderWindow(sf::VideoMode(app_width, app_height), sf::String(app_name)));
-    game = std::make_shared<Breakout::BreakoutGame>();
+    Assert(app_width > 0, "Invalid app_width: {}", app_width);
+    Assert(app_height > 0, "Invalid app_height: {}", app_height);
+
+    mainWindow = std::make_shared<sf::RenderWindow>(sf::VideoMode(app_width, app_height), sf::String(app_name));
+    game       = std::make_shared<Breakout::BreakoutGame>();
     game->Init(mainWindow);
     engine = std::make_shared<Breakout::Engine>(mainWindow.get());
 
@@ -89,9 +87,51 @@ void GameApplication::Run()
         sf::Vector2f(static_cast<float>(SCREEN_WIDTH) * 0.5f,
                      static_cast<float>(SCREEN_HEIGHT) * 0.5f));  // Scale the circle to make an ellipses
     testCircle.setFillColor(sf::Color::Green);*/
+
+    auto app_start_time = Time::GetTime();
+
     game->BeginGame();
+
+    auto last_time     = Time::GetTime();
+    auto fps_counter   = 0;
+    auto seconds_timer = 0.0;
+
+    const auto kFpsTarget       = 60;
+    const auto kTargetFrameTime = 1.0 / kFpsTarget;
+
     while (mainWindow->isOpen())
     {
+        auto current_time = Time::GetTime();
+        auto elapsed_time = current_time - last_time;
+        last_time         = current_time;
+
+        seconds_timer += elapsed_time;
+
+        Assert(elapsed_time >= 0.0,
+               "Negative elapsed time: {} (current_time: {} last_time: {})",
+               elapsed_time,
+               current_time,
+               last_time);
+
+        // Report FPS
+        if (seconds_timer >= 1.0)
+        {
+            Message("FPS: {}\n", fps_counter);
+
+            fps_counter   = 0;
+            seconds_timer = 0.0;
+        }
+
+        // Report frame time spikes
+        if (elapsed_time > kTargetFrameTime)
+        {
+            Message("Warning @ {}s: Slow frame by {}s. (Elapsed: {}s Target: {}s)\n",
+                    current_time - app_start_time,
+                    elapsed_time - kTargetFrameTime,
+                    elapsed_time,
+                    kTargetFrameTime);
+        }
+
         sf::Event sfEvent = {};
         while (mainWindow->pollEvent(sfEvent))
         {
@@ -100,10 +140,13 @@ void GameApplication::Run()
 
         mainWindow->clear();  // Remove all drawn content from window
 
-        engine->Update(.016f, game->GetGameObjects());
+        engine->Update((float)elapsed_time, game->GetGameObjects());
 
         mainWindow->display();  // Present the window
+        fps_counter++;
     }
+
+    game->EndGame();
 }
 
 void GameApplication::Shutdown() {}

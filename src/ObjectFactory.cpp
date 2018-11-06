@@ -8,6 +8,9 @@ Breakout::ObjectFactory::~ObjectFactory() {}
 std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::TestCreateBrick(
     float x, float y, float width, float height, sf::Color color)
 {
+    Assert(width > 0, "Width must be > 0 (width: {})", width);
+    Assert(height > 0, "Height must be > 0 (height: {})", height);
+
     // Create the object
     auto object = std::make_shared<Breakout::Object>();
 
