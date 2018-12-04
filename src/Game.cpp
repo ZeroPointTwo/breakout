@@ -67,7 +67,10 @@ void Breakout::BreakoutGame::BeginGame()
     auto       level          = LoadJsonFromFile(level_filename);
 
     Assert(level.size() > 0, "Failed to load level data from %s.", level_filename);
-    if (level.size() == 0) { return; }
+    if (level.size() == 0)
+    {
+        return;
+    }
 
     std::vector<std::string> level_data    = level["level_data"];
     std::int32_t             brick_width   = level["brick_width"];
@@ -77,13 +80,17 @@ void Breakout::BreakoutGame::BeginGame()
     float                    paddle_height = level["paddle_height"];
     float                    paddle_x      = level["paddle_x"];
     float                    paddle_y      = level["paddle_y"];
+    float                    paddle_speed  = level["paddle_speed"];
 
     Assert(brick_width > 0, "Invalid brick width: {}", brick_width);
     Assert(brick_height > 0, "Invalid brick height: {}", brick_height);
 
+    float numBricks  = (float)level_data[0].length();
+    float boardWidth = brick_width * numBricks + brick_gap * (numBricks - 1);
+
     // set up the paddle
-    _gameObjects.push_back(
-        objectFactory->CreatePaddle(paddle_x, paddle_y, paddle_width, paddle_height, sf::Color::Magenta));
+    _gameObjects.push_back(objectFactory->CreatePaddle(
+        paddle_x, paddle_y, paddle_width, paddle_height, paddle_speed, 0.f, boardWidth, sf::Color::Magenta));
 
     sf::Vector2f position(0.0f, 0.0f);
     for (auto& row : level_data)
@@ -98,8 +105,10 @@ void Breakout::BreakoutGame::BeginGame()
                     _gameObjects.push_back(objectFactory->TestCreateBrick(
                         position.x, position.y, (float)brick_width, (float)brick_height, sf::Color::Red));
                     break;
-                case '-': break;
-                default: break;
+                case '-':
+                    break;
+                default:
+                    break;
             }
 
             position.x += brick_width + brick_gap;
@@ -116,4 +125,12 @@ void Breakout::BreakoutGame::BeginGame()
     //        _gameObjects.push_back(objectFactory->TestCreateBrick(i * 51.f, j * 21.f, sf::Color::Red));
     //    }
     //}
+}
+
+void Breakout::BreakoutGame::Update(float deltaTime)
+{
+    for (auto object : _gameObjects)
+    {
+        object->Update(deltaTime);
+    }
 }

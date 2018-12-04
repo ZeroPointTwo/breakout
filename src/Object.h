@@ -14,6 +14,7 @@ namespace Breakout
         BaseComponent* GetComponent(EComponentType type) const;
 
         void AddComponent(std::shared_ptr<BaseComponent> component);
+        void Update(float deltaTime);
 
       protected:
         std::vector<std::shared_ptr<BaseComponent>> components;

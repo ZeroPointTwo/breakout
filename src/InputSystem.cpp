@@ -2,7 +2,9 @@
 #include "SFML\Window\Keyboard.hpp"
 #include "Util.h"
 
-Breakout::InputSystem::InputSystem() {}
+Breakout::InputSystem::InputSystem()
+{
+}
 
 void Breakout::InputSystem::Update(const std::vector<std::shared_ptr<Object>>& gameObjects)
 {
@@ -19,8 +21,6 @@ void Breakout::InputSystem::Update(const std::vector<std::shared_ptr<Object>>& g
         {
             // for formating
             inputComponent->SetInputs(currentInputs);
-
-            if (currentInputs.moveLeft) { Message("Left key is pressed, this is a todo"); }
         }
     }
 }
@@ -30,4 +30,5 @@ void Breakout::InputSystem::UpdateInputs()
     currentInputs.moveLeft  = sf::Keyboard::isKeyPressed(sf::Keyboard::Left);
     currentInputs.moveRight = sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
     currentInputs.action    = sf::Keyboard::isKeyPressed(sf::Keyboard::Space);
+    currentInputs.exit      = sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
 }

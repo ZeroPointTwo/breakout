@@ -29,7 +29,9 @@ namespace Breakout
     {
       public:
         BaseComponent(const std::weak_ptr<Object>& _owner);
-        virtual ~BaseComponent() {}
+        virtual ~BaseComponent()
+        {
+        }
 
         virtual bool                  Init()           = 0;
         virtual void                  Update(float dt) = 0;
@@ -108,11 +110,16 @@ namespace Breakout
     class PaddleMovementComponent : public MovementComponent
     {
       public:
-        PaddleMovementComponent(const std::weak_ptr<Object>& _owner);
+        PaddleMovementComponent(const std::weak_ptr<Object>& _owner, float _speed, float _boundLeft, float _boundRight);
         virtual ~PaddleMovementComponent() = default;
         virtual bool Init() override;
         virtual void Update(float dt) override;
         virtual void UnInit() override;
+
+      protected:
+        float speed;
+        float boundLeft;
+        float boundRight;
     };
 
     /*class CollisionComponent : public BaseComponent

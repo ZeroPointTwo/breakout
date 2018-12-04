@@ -13,11 +13,14 @@ namespace Breakout
         virtual ~Game(){};
 
         virtual bool Init(std::shared_ptr<sf::RenderWindow>& sfWindow) = 0;
-        virtual void Update()                                          = 0;
+        virtual void Update(float deltaTime)                           = 0;
         virtual void BeginGame()                                       = 0;
         virtual void EndGame()                                         = 0;
 
-        virtual std::vector<std::shared_ptr<Object>>& GetGameObjects() { return _gameObjects; }
+        virtual std::vector<std::shared_ptr<Object>>& GetGameObjects()
+        {
+            return _gameObjects;
+        }
 
       protected:
         std::shared_ptr<sf::RenderWindow>    _sfWindow;
@@ -32,7 +35,7 @@ namespace Breakout
 
         bool Init(std::shared_ptr<sf::RenderWindow>& sfWindow) override;
 
-        void Update() override{};
+        void Update(float deltaTime) override;
 
         void BeginGame() override;
 

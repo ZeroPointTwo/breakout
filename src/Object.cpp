@@ -3,7 +3,9 @@
 
 using Breakout::Object;
 
-Object::Object() {}
+Object::Object()
+{
+}
 
 Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type) const
 {
@@ -24,4 +26,15 @@ Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type) con
     return ret;
 }
 
-void Breakout::Object::AddComponent(std::shared_ptr<BaseComponent> component) { components.push_back(component); }
+void Breakout::Object::AddComponent(std::shared_ptr<BaseComponent> component)
+{
+    components.push_back(component);
+}
+
+void Breakout::Object::Update(float deltaTime)
+{
+    for (auto component : components)
+    {
+        component->Update(deltaTime);
+    }
+}

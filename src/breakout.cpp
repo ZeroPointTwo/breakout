@@ -13,7 +13,9 @@ std::vector<nlohmann::json> g_traces;
 class IApplication
 {
   public:
-    virtual ~IApplication() {}
+    virtual ~IApplication()
+    {
+    }
     virtual bool Init()     = 0;
     virtual void Run()      = 0;
     virtual void Shutdown() = 0;
@@ -23,7 +25,9 @@ class GameApplication : public IApplication
 {
   public:
     GameApplication();
-    virtual ~GameApplication() {}
+    virtual ~GameApplication()
+    {
+    }
 
     // Create window and game
     bool Init() override;
@@ -32,9 +36,9 @@ class GameApplication : public IApplication
     void Shutdown() override;
 
   private:
-    std::shared_ptr<Breakout::Engine>      engine;
-    std::shared_ptr<Breakout::Game>        game;
-    std::shared_ptr<sf::RenderWindow>      mainWindow;
+    std::shared_ptr<Breakout::Engine> engine;
+    std::shared_ptr<Breakout::Game>   game;
+    std::shared_ptr<sf::RenderWindow> mainWindow;
 };
 
 int main(int argc, char* argv[])
@@ -55,7 +59,9 @@ int main(int argc, char* argv[])
     return 0;
 }
 
-GameApplication::GameApplication() {}
+GameApplication::GameApplication()
+{
+}
 
 bool GameApplication::Init()
 {
@@ -137,12 +143,16 @@ void GameApplication::Run()
         sf::Event sfEvent = {};
         while (mainWindow->pollEvent(sfEvent))
         {
-            if (sfEvent.type == sf::Event::Closed) { mainWindow->close(); }
+            if (sfEvent.type == sf::Event::Closed)
+            {
+                mainWindow->close();
+            }
         }
 
         mainWindow->clear();  // Remove all drawn content from window
 
         engine->Update((float)elapsed_time, game->GetGameObjects());
+        game->Update((float)elapsed_time);
 
         mainWindow->display();  // Present the window
         fps_counter++;
@@ -151,4 +161,6 @@ void GameApplication::Run()
     game->EndGame();
 }
 
-void GameApplication::Shutdown() {}
+void GameApplication::Shutdown()
+{
+}

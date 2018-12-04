@@ -14,5 +14,6 @@
 	"paddle_x" : 20,
 	"paddle_y" : 150,
 	"paddle_width" : 50,
-	"paddle_height" : 10
+	"paddle_height" : 10,
+	"paddle_speed" : 150
 }

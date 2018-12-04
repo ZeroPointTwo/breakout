@@ -1,9 +1,13 @@
 #include "ObjectFactory.h"
 #include "SFML/Graphics.hpp"
 
-Breakout::ObjectFactory::ObjectFactory() {}
+Breakout::ObjectFactory::ObjectFactory()
+{
+}
 
-Breakout::ObjectFactory::~ObjectFactory() {}
+Breakout::ObjectFactory::~ObjectFactory()
+{
+}
 
 std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::TestCreateBrick(
     float x, float y, float width, float height, sf::Color color)
@@ -30,7 +34,7 @@ std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::TestCreateBrick(
 }
 
 std::shared_ptr<Object> Breakout::ObjectFactory::CreatePaddle(
-    float x, float y, float width, float height, sf::Color color)
+    float x, float y, float width, float height, float speed, float boundLeft, float boundRight, sf::Color color)
 {
     UNUSED_ARGS(color, x, y, width, height);
 
@@ -53,6 +57,10 @@ std::shared_ptr<Object> Breakout::ObjectFactory::CreatePaddle(
     // Input component
     std::shared_ptr<Breakout::InputComponent> input = std::make_shared<Breakout::InputComponent>(object);
     object->AddComponent(input);
+
+    std::shared_ptr<Breakout::PaddleMovementComponent> paddleComponent =
+        std::make_shared<Breakout::PaddleMovementComponent>(object, speed, boundLeft, boundRight);
+    object->AddComponent(paddleComponent);
 
     return object;
 }
