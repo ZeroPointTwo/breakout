@@ -1,4 +1,5 @@
 #include "Object.h"
+#include "Util.h"
 
 using Breakout::Object;
 
@@ -10,7 +11,10 @@ Breakout::BaseComponent* Breakout::Object::GetComponent(EComponentType type) con
 
     for (auto& compIter : components)
     {
-        if (compIter->GetType() == type)
+        auto compType = compIter->GetType();
+        Assert(compType != CT_INVALID, "Component type not set - :( ");
+
+        if (compType == type)
         {
             ret = compIter.get();
             break;

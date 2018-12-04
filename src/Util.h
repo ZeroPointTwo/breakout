@@ -1,12 +1,12 @@
 
 #pragma once
 
-template<typename... T> void UNUSED_ARGS(T&&...) {}  // NOLINT(readability-named-parameter)
-
 #pragma warning(push)
 #pragma warning(disable : 4127)
 #include "fmt/format.h"  // NOLINT
 #pragma warning(pop)
+
+template<typename... T> void UNUSED_ARGS(T&&...) {}  // NOLINT(readability-named-parameter)
 
 #if _DEBUG
 namespace Debug

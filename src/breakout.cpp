@@ -8,6 +8,8 @@
 
 #include "nlohmann/json.hpp"
 
+std::vector<nlohmann::json> g_traces;
+
 class IApplication
 {
   public:
@@ -30,9 +32,9 @@ class GameApplication : public IApplication
     void Shutdown() override;
 
   private:
-    std::shared_ptr<Breakout::Engine> engine;
-    std::shared_ptr<Breakout::Game>   game;
-    std::shared_ptr<sf::RenderWindow> mainWindow;
+    std::shared_ptr<Breakout::Engine>      engine;
+    std::shared_ptr<Breakout::Game>        game;
+    std::shared_ptr<sf::RenderWindow>      mainWindow;
 };
 
 int main(int argc, char* argv[])

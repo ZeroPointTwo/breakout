@@ -1,6 +1,7 @@
 #ifndef BREAKOUT_COMPONENT_H
 #define BREAKOUT_COMPONENT_H
 
+#include "InputSystem.h"
 #include "SFML/System/Vector2.hpp"
 
 #include <memory>
@@ -19,6 +20,7 @@ namespace Breakout
         CT_INVALID         = -1,
         CT_RENDERCOMPONENT = 0,
         CT_POSITIONCOMPONENT,
+        CT_INPUTCOMPONENT,
         CT_END,
         CT_COUNT = CT_END
     };
@@ -78,6 +80,36 @@ namespace Breakout
       public:
         InputComponent(const std::weak_ptr<Object>& _owner);
         virtual ~InputComponent() = default;
+        virtual bool Init() override;
+        virtual void Update(float dt) override;
+        virtual void UnInit() override;
+
+        void       SetInputs(GameInputs inputs);
+        GameInputs GetInputs();
+
+      private:
+        GameInputs currentInputs;
+    };
+
+    class MovementComponent : public BaseComponent
+    {
+      public:
+        MovementComponent(const std::weak_ptr<Object>& _owner);
+        virtual ~MovementComponent() = default;
+        virtual bool Init() override;
+        virtual void Update(float dt) override;
+        virtual void UnInit() override;
+
+      protected:
+        sf::Vector2f velocity;
+        sf::Vector2f acceleration;
+    };
+
+    class PaddleMovementComponent : public MovementComponent
+    {
+      public:
+        PaddleMovementComponent(const std::weak_ptr<Object>& _owner);
+        virtual ~PaddleMovementComponent() = default;
         virtual bool Init() override;
         virtual void Update(float dt) override;
         virtual void UnInit() override;

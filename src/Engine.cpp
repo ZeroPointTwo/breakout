@@ -1,7 +1,14 @@
 #include "Engine.h"
 #include "Util.h"
+#include "clock.h"
 
-Breakout::Engine::Engine(sf::RenderWindow* window) { renderSystem = std::make_unique<RenderSystem>(window); }
+extern std::vector<nlohmann::json> g_traces;
+
+Breakout::Engine::Engine(sf::RenderWindow* window)
+{
+    renderSystem = std::make_unique<RenderSystem>(window);
+    inputSystem  = std::make_unique<InputSystem>();
+}
 
 void Breakout::Engine::Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects)
 {
@@ -10,4 +17,7 @@ void Breakout::Engine::Update(float deltaTime, const std::vector<std::shared_ptr
         // please don't compress me
         renderSystem->Update(deltaTime, gameObjects);
     }
+
+    // bad formating is bad
+    if (inputSystem != nullptr) { inputSystem->Update(gameObjects); }
 }

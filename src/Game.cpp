@@ -69,13 +69,21 @@ void Breakout::BreakoutGame::BeginGame()
     Assert(level.size() > 0, "Failed to load level data from %s.", level_filename);
     if (level.size() == 0) { return; }
 
-    std::vector<std::string> level_data   = level["level_data"];
-    std::int32_t             brick_width  = level["brick_width"];
-    std::int32_t             brick_height = level["brick_height"];
-    std::int32_t             brick_gap    = level["brick_gap"];
+    std::vector<std::string> level_data    = level["level_data"];
+    std::int32_t             brick_width   = level["brick_width"];
+    std::int32_t             brick_height  = level["brick_height"];
+    std::int32_t             brick_gap     = level["brick_gap"];
+    float                    paddle_width  = level["paddle_width"];
+    float                    paddle_height = level["paddle_height"];
+    float                    paddle_x      = level["paddle_x"];
+    float                    paddle_y      = level["paddle_y"];
 
     Assert(brick_width > 0, "Invalid brick width: {}", brick_width);
     Assert(brick_height > 0, "Invalid brick height: {}", brick_height);
+
+    // set up the paddle
+    _gameObjects.push_back(
+        objectFactory->CreatePaddle(paddle_x, paddle_y, paddle_width, paddle_height, sf::Color::Magenta));
 
     sf::Vector2f position(0.0f, 0.0f);
     for (auto& row : level_data)

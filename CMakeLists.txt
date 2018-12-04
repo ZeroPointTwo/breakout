@@ -28,7 +28,9 @@ set(BREAKOUT_FILES
     src/ObjectFactory.h
     src/ObjectFactory.cpp
     src/Clock.h
-    src/Clock.cpp)
+    src/Clock.cpp
+	src/InputSystem.h
+	src/InputSystem.cpp)
 
 if(NOT UNITY_BUILD)
     set(BUILD_FILES ${BREAKOUT_FILES})

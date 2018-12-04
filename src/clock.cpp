@@ -2,6 +2,7 @@
 #include "clock.h"
 
 #include <chrono>
+#include "nlohmann/json.hpp"
 
 namespace
 {

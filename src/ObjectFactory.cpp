@@ -33,5 +33,26 @@ std::shared_ptr<Object> Breakout::ObjectFactory::CreatePaddle(
     float x, float y, float width, float height, sf::Color color)
 {
     UNUSED_ARGS(color, x, y, width, height);
-    return std::shared_ptr<Object>();
+
+    // Create the object
+    auto object = std::make_shared<Breakout::Object>();
+
+    // Render component
+    auto paddleShape = std::make_shared<sf::RectangleShape>(sf::Vector2f(width, height));
+    paddleShape->setFillColor(color);
+
+    std::shared_ptr<Breakout::RenderComponent> render =
+        std::make_shared<Breakout::RenderComponent>(object, paddleShape);
+    object->AddComponent(render);
+
+    // Position component
+    std::shared_ptr<Breakout::PositionComponent> position = std::make_shared<Breakout::PositionComponent>(object);
+    position->SetPosition(sf::Vector2f(x, y));
+    object->AddComponent(position);
+
+    // Input component
+    std::shared_ptr<Breakout::InputComponent> input = std::make_shared<Breakout::InputComponent>(object);
+    object->AddComponent(input);
+
+    return object;
 }

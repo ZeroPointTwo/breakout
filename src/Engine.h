@@ -16,5 +16,7 @@ namespace Breakout
         void Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects);
 
         std::unique_ptr<RenderSystem> renderSystem;
+
+        std::unique_ptr<InputSystem> inputSystem;
     };
 }  // namespace Breakout

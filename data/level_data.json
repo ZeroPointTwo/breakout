@@ -9,5 +9,10 @@
 		"------R------"],
 	"brick_height" : 15,
 	"brick_width" : 15,
-	"brick_gap" : 1
+	"brick_gap" : 1,
+	
+	"paddle_x" : 20,
+	"paddle_y" : 150,
+	"paddle_width" : 50,
+	"paddle_height" : 10
 }
