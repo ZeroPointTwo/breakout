@@ -19,5 +19,8 @@ void Breakout::Engine::Update(float deltaTime, const std::vector<std::shared_ptr
     }
 
     // bad formating is bad
-    if (inputSystem != nullptr) { inputSystem->Update(gameObjects); }
+    if (inputSystem != nullptr)
+    {
+        inputSystem->Update(gameObjects);
+    }
 }

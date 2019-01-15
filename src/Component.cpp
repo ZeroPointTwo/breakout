@@ -1,5 +1,7 @@
 #include "Component.h"
 #include "Object.h"
+#include "SFML\Graphics\Rect.hpp"
+#include "SFML\Graphics\Shape.hpp"
 #include "SFML\Window\Keyboard.hpp"
 #include "Util.h"
 
@@ -152,6 +154,7 @@ Breakout::PaddleMovementComponent::PaddleMovementComponent(const std::weak_ptr<O
     boundLeft(_boundLeft),
     boundRight(_boundRight)
 {
+    type = CT_PADDLEMOVEMENTCOMPONENT;
 }
 
 bool Breakout::PaddleMovementComponent::Init()
@@ -190,7 +193,7 @@ void Breakout::PaddleMovementComponent::Update(float dt)
         const float hardcodedPaddleWidth = 50.f;
 
         // Bound
-        if (newPos.x < boundLeft)
+        /*if (newPos.x < boundLeft)
         {
             newPos.x = boundLeft;
             positionComp->SetPosition(newPos);
@@ -199,9 +202,64 @@ void Breakout::PaddleMovementComponent::Update(float dt)
         {
             newPos.x = boundRight - hardcodedPaddleWidth;
             positionComp->SetPosition(newPos);
-        }
+        }*/
     }
 }
 void Breakout::PaddleMovementComponent::UnInit()
 {
+}
+
+Breakout::CollisionComponent::CollisionComponent(const std::weak_ptr<Object>&     _owner,
+                                                 const std::shared_ptr<sf::Shape> inCollisionShape) :
+    BaseComponent(_owner)
+{
+    collisionRect = inCollisionShape->getGlobalBounds();
+    type          = CT_COLLISIONCOMPONENT;
+}
+
+CollisionComponent::~CollisionComponent()
+{
+}
+
+bool CollisionComponent::Init()
+{
+    return false;
+}
+
+void CollisionComponent::Update(float dt)
+{
+    UNUSED_ARGS(dt);
+}
+
+void CollisionComponent::UnInit()
+{
+}
+
+sf::Rect<float> CollisionComponent::GetTransformed()
+{
+    sf::Rect<float> outRect;
+
+    if (auto _owner = GetOwner().lock())
+    {
+        if (auto posComponent =
+                dynamic_cast<PositionComponent*>(_owner->GetComponent(EComponentType::CT_POSITIONCOMPONENT)))
+        {
+            auto ourPosition = posComponent->GetPosition();
+            outRect.top      = collisionRect.top + ourPosition.y;
+            outRect.left     = collisionRect.left + ourPosition.x;
+            outRect.height   = collisionRect.height;
+            outRect.width    = collisionRect.width;
+        }
+    }
+    return outRect;
+}
+
+bool CollisionComponent::Intersects(CollisionComponent* other) const
+{
+    if (other->collisionRect.intersects(collisionRect))
+    {
+        return true;
+    }
+
+    return false;
 }

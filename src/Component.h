@@ -2,6 +2,7 @@
 #define BREAKOUT_COMPONENT_H
 
 #include "InputSystem.h"
+#include "SFML/Graphics/Rect.hpp"
 #include "SFML/System/Vector2.hpp"
 
 #include <memory>
@@ -21,6 +22,8 @@ namespace Breakout
         CT_RENDERCOMPONENT = 0,
         CT_POSITIONCOMPONENT,
         CT_INPUTCOMPONENT,
+        CT_COLLISIONCOMPONENT,
+        CT_PADDLEMOVEMENTCOMPONENT,
         CT_END,
         CT_COUNT = CT_END
     };
@@ -122,15 +125,22 @@ namespace Breakout
         float boundRight;
     };
 
-    /*class CollisionComponent : public BaseComponent
+    class CollisionComponent : public BaseComponent
     {
       public:
-        CollisionComponent(const std::weak_ptr<Object>& _owner);
+        CollisionComponent(const std::weak_ptr<Object>& _owner, const std::shared_ptr<sf::Shape> inCollisionShape);
+
         virtual ~CollisionComponent() override;
-        virtual bool Init() override;
-        virtual void Update(float dt) override;
-        virtual void UnInit() override;
-    };*/
+        virtual bool    Init() override;
+        virtual void    Update(float dt) override;
+        virtual void    UnInit() override;
+        sf::Rect<float> CollisionComponent::GetTransformed();
+
+        virtual bool Intersects(CollisionComponent* other) const;
+
+      protected:
+        sf::Rect<float> collisionRect;
+    };
 }  // namespace Breakout
 
 #endif  // !BREAKOUT_COMPONENT_H

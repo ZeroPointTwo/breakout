@@ -6,6 +6,8 @@ project(breakout LANGUAGES CXX)
 set(CMAKE_MODULE_PATH ${CMAKE_BINARY_DIR}/conan)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install/bin")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/install/bin")
@@ -21,6 +23,8 @@ set(BREAKOUT_FILES
     src/Util.h
     src/RenderSystem.h
     src/RenderSystem.cpp
+    src/CollisionSystem.h
+    src/CollisionSystem.cpp
     src/Engine.cpp
     src/Engine.h
     src/Game.cpp

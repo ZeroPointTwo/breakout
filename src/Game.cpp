@@ -85,14 +85,25 @@ void Breakout::BreakoutGame::BeginGame()
     Assert(brick_width > 0, "Invalid brick width: {}", brick_width);
     Assert(brick_height > 0, "Invalid brick height: {}", brick_height);
 
-    float numBricks  = (float)level_data[0].length();
-    float boardWidth = brick_width * numBricks + brick_gap * (numBricks - 1);
-
+    float       numBricks   = (float)level_data[0].length();
+    float       boardWidth  = brick_width * numBricks + brick_gap * (numBricks - 1);
+    const float Offset      = 20;
+    float       boardHeight = paddle_y + Offset;
     // set up the paddle
     _gameObjects.push_back(objectFactory->CreatePaddle(
         paddle_x, paddle_y, paddle_width, paddle_height, paddle_speed, 0.f, boardWidth, sf::Color::Magenta));
 
     sf::Vector2f position(0.0f, 0.0f);
+
+    // top
+    _gameObjects.push_back(objectFactory->CreateWall(0, 0, boardWidth, 2, sf::Color::White));
+    // left
+    _gameObjects.push_back(objectFactory->CreateWall(0, 0, 2, boardHeight, sf::Color::White));
+    // bottom
+    _gameObjects.push_back(objectFactory->CreateWall(0, boardHeight, boardWidth, 2, sf::Color::White));
+    // right
+    _gameObjects.push_back(objectFactory->CreateWall(boardWidth, 0, 2, boardHeight, sf::Color::White));
+
     for (auto& row : level_data)
     {
         position.x = 0.0f;

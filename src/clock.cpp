@@ -19,10 +19,19 @@ namespace Time
         return nanoseconds;
     }
 
-    int64_t GetTicksPerSecond() { return kNanoSecondsPerSecond; }
+    int64_t GetTicksPerSecond()
+    {
+        return kNanoSecondsPerSecond;
+    }
 
-    double GetTime() { return (double)GetTick() / GetTicksPerSecond(); }
+    double GetTime()
+    {
+        return (double)GetTick() / GetTicksPerSecond();
+    }
 
-    double GetTimeResolution() { return 1.0 / GetTicksPerSecond(); }
+    double GetTimeResolution()
+    {
+        return 1.0 / GetTicksPerSecond();
+    }
 
 }  // namespace Time
