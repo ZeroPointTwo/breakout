@@ -3,11 +3,11 @@
 
 namespace Breakout
 {
-    class CollisionSystem
+    class PhysicsSystem
     {
       public:
-        CollisionSystem();
-        ~CollisionSystem() = default;
+        PhysicsSystem();
+        ~PhysicsSystem() = default;
 
         void Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects);
     };

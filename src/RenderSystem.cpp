@@ -17,8 +17,8 @@ void Breakout::RenderSystem::Update(float deltaTime, const std::vector<std::shar
     {
         Assert(object != nullptr, "Invalid game object.");
 
-        auto renderComponent   = dynamic_cast<RenderComponent*>(object->GetComponent(CT_RENDERCOMPONENT));
-        auto positionComponent = dynamic_cast<PositionComponent*>(object->GetComponent(CT_POSITIONCOMPONENT));
+        auto renderComponent   = object->GetComponent<RenderComponent>();
+        auto positionComponent = object->GetComponent<PositionComponent>();
 
         if (positionComponent != nullptr && renderComponent != nullptr)
         {

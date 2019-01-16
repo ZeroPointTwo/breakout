@@ -23,8 +23,8 @@ set(BREAKOUT_FILES
     src/Util.h
     src/RenderSystem.h
     src/RenderSystem.cpp
-    src/CollisionSystem.h
-    src/CollisionSystem.cpp
+    src/PhysicsSystem.h
+    src/PhysicsSystem.cpp
     src/Engine.cpp
     src/Engine.h
     src/Game.cpp

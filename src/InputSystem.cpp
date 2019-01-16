@@ -15,7 +15,7 @@ void Breakout::InputSystem::Update(const std::vector<std::shared_ptr<Object>>& g
     {
         Assert(object != nullptr, "Invalid game object.");
 
-        auto inputComponent = dynamic_cast<InputComponent*>(object->GetComponent(CT_INPUTCOMPONENT));
+        auto inputComponent = object->GetComponent<InputComponent>();
 
         if (inputComponent != nullptr)
         {

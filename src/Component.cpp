@@ -127,7 +127,10 @@ GameInputs Breakout::InputComponent::GetInputs()
     return currentInputs;
 }
 
-Breakout::MovementComponent::MovementComponent(const std::weak_ptr<Object>& _owner) : BaseComponent(_owner)
+Breakout::MovementComponent::MovementComponent(const std::weak_ptr<Object>& _owner) : 
+    BaseComponent(_owner),
+    velocity(0.f, 0.f),
+    acceleration(0.f, 0.f)
 {
 }
 
@@ -164,16 +167,13 @@ bool Breakout::PaddleMovementComponent::Init()
 
 void Breakout::PaddleMovementComponent::Update(float dt)
 {
-    auto positionComp =
-        dynamic_cast<PositionComponent*>(owner.lock()->GetComponent(EComponentType::CT_POSITIONCOMPONENT));
-    Assert(positionComp != nullptr, "PaddleMovementComponent Components must have a Position Component");
-    auto inputComp = dynamic_cast<InputComponent*>(owner.lock()->GetComponent(EComponentType::CT_INPUTCOMPONENT));
-    Assert(positionComp != nullptr, "PaddleMovementComponent Components must have a Input Component");
+    UNUSED_ARGS(dt);
+    auto inputComp = owner.lock()->GetComponent<InputComponent>();
+    Assert(inputComp != nullptr, "PaddleMovementComponent Components must have a Input Component");
 
-    if (positionComp && inputComp)
+    if (inputComp)
     {
         GameInputs   curInputs = inputComp->GetInputs();
-        sf::Vector2f oldPos    = positionComp->GetPosition();
 
         float modifier = curInputs.moveLeft ? -1.0f : 1.0f;
 
@@ -182,27 +182,7 @@ void Breakout::PaddleMovementComponent::Update(float dt)
             modifier = 0;
         }
 
-        float deltaPos = speed * dt * modifier;
-
-        oldPos.x += deltaPos;
-        positionComp->SetPosition(oldPos);
-
-        sf::Vector2f newPos = positionComp->GetPosition();
-
-        // TODO: HACK!
-        const float hardcodedPaddleWidth = 50.f;
-
-        // Bound
-        /*if (newPos.x < boundLeft)
-        {
-            newPos.x = boundLeft;
-            positionComp->SetPosition(newPos);
-        }
-        else if ((newPos.x + hardcodedPaddleWidth) > boundRight)
-        {
-            newPos.x = boundRight - hardcodedPaddleWidth;
-            positionComp->SetPosition(newPos);
-        }*/
+        velocity.x = modifier * speed;
     }
 }
 void Breakout::PaddleMovementComponent::UnInit()
@@ -241,8 +221,7 @@ sf::Rect<float> CollisionComponent::GetTransformed()
 
     if (auto _owner = GetOwner().lock())
     {
-        if (auto posComponent =
-                dynamic_cast<PositionComponent*>(_owner->GetComponent(EComponentType::CT_POSITIONCOMPONENT)))
+        if (auto posComponent = _owner->GetComponent<PositionComponent>())
         {
             auto ourPosition = posComponent->GetPosition();
             outRect.top      = collisionRect.top + ourPosition.y;
