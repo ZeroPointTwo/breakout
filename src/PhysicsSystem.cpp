@@ -11,22 +11,56 @@ void Breakout::PhysicsSystem::Update(float deltaTime, const std::vector<std::sha
     // get components of type
     UNUSED_ARGS(deltaTime, gameObjects);
 
-    // TODO : PICKUP HERE
-    // Add comment here about adding physics system
-    // Good luck - WWJD
     for (auto& object : gameObjects)
     {
         Assert(object != nullptr, "Invalid game object.");
 
-        auto collisionComponent = object->GetComponent<CollisionComponent>();
         auto movementComponent = object->GetComponent<MovementComponent>();
-        collisionComponent; // just making sure that things work
-        movementComponent;
-        
+        auto positionComponent = object->GetComponent<PositionComponent>();
+
+        if (!movementComponent || !positionComponent)
+        {
+            continue;
+        }
+
         // If no velocity, continue
-//        if(movementComponent->)
-        // Pre-Check against other objects (TODO: channels)
-        // If cant move, dont
-        // Fire collision reaction on both objects
+        auto velocity = movementComponent->GetVelocity();
+        if (velocity.x != 0.f || velocity.y != 0.f)
+        {
+            // Check of for collisions
+            bool isCollided = false;
+            if (auto collisionComponent = object->GetComponent<CollisionComponent>())
+            {
+                // (TODO: channels)
+                for (auto& otherObject : gameObjects)
+                {
+                    // Dont compare against current object
+                    if (object == otherObject)
+                    {
+                        continue;
+                    }
+
+                    // Get other object collision comp
+                    if (auto otherCollisionComp = otherObject->GetComponent<CollisionComponent>())
+                    {
+                        if (collisionComponent->Intersects(otherCollisionComp))
+                        {
+                            isCollided = true;
+                            break;
+                        }
+                    }
+                }
+                // If cant move, dont
+                // Fire collision reaction on both objects
+            }
+
+            // Move if we havent collided
+            if (!isCollided)
+            {
+                auto newPos = positionComponent->GetPosition() + (velocity * deltaTime);
+                positionComponent->SetPosition(newPos);
+            }
+            // TODO collision response!
+        }
     }
 }

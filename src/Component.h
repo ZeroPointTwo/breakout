@@ -16,19 +16,6 @@ namespace Breakout
 {
     class Object;
 
-    enum EComponentType
-    {
-        CT_INVALID         = -1,
-        CT_RENDERCOMPONENT = 0,
-        CT_POSITIONCOMPONENT,
-        CT_INPUTCOMPONENT,
-        CT_COLLISIONCOMPONENT,
-        CT_MOVEMENTCOMPONENT,
-        CT_PADDLEMOVEMENTCOMPONENT,
-        CT_END,
-        CT_COUNT = CT_END
-    };
-
     class BaseComponent
     {
       public:
@@ -40,11 +27,9 @@ namespace Breakout
         virtual bool                  Init()           = 0;
         virtual void                  Update(float dt) = 0;
         virtual void                  UnInit()         = 0;
-        virtual EComponentType        GetType();
         virtual std::weak_ptr<Object> GetOwner();
 
       protected:
-        EComponentType        type;
         std::weak_ptr<Object> owner;
     };
 
@@ -102,9 +87,17 @@ namespace Breakout
       public:
         MovementComponent(const std::weak_ptr<Object>& _owner);
         virtual ~MovementComponent() = default;
-        virtual bool Init() override;
-        virtual void Update(float dt) override;
-        virtual void UnInit() override;
+        virtual bool         Init() override;
+        virtual void         Update(float dt) override;
+        virtual void         UnInit() override;
+        virtual sf::Vector2f GetVelocity() const
+        {
+            return velocity;
+        }
+        virtual sf::Vector2f GetAcceleration() const
+        {
+            return acceleration;
+        }
 
       protected:
         sf::Vector2f velocity;
@@ -137,7 +130,7 @@ namespace Breakout
         virtual void    UnInit() override;
         sf::Rect<float> CollisionComponent::GetTransformed();
 
-        virtual bool Intersects(CollisionComponent* other) const;
+        virtual bool Intersects(CollisionComponent* other);
 
       protected:
         sf::Rect<float> collisionRect;

@@ -7,14 +7,9 @@
 
 using namespace Breakout;
 
-Breakout::BaseComponent::BaseComponent(const std::weak_ptr<Object>& _owner) : type(CT_INVALID)
+Breakout::BaseComponent::BaseComponent(const std::weak_ptr<Object>& _owner)
 {
     owner = _owner;
-}
-
-Breakout::EComponentType Breakout::BaseComponent::GetType()
-{
-    return type;
 }
 
 std::weak_ptr<Object> Breakout::BaseComponent::GetOwner()
@@ -31,7 +26,6 @@ Breakout::RenderComponent::RenderComponent(const std::weak_ptr<Object>&      _ow
     BaseComponent(_owner),
     RenderObject(inRenderObject)
 {
-    type = CT_RENDERCOMPONENT;
 }
 
 Breakout::RenderComponent::~RenderComponent()
@@ -63,7 +57,6 @@ sf::Shape* Breakout::RenderComponent::GetShape()
 
 Breakout::PositionComponent::PositionComponent(const std::weak_ptr<Object>& _owner) : BaseComponent(_owner)
 {
-    type = CT_POSITIONCOMPONENT;
 }
 
 Breakout::PositionComponent::~PositionComponent()
@@ -100,7 +93,6 @@ const sf::Vector2f& Breakout::PositionComponent::GetPosition() const
 
 Breakout::InputComponent::InputComponent(const std::weak_ptr<Object>& _owner) : BaseComponent(_owner)
 {
-    type = CT_INPUTCOMPONENT;
 }
 
 bool Breakout::InputComponent::Init()
@@ -127,7 +119,7 @@ GameInputs Breakout::InputComponent::GetInputs()
     return currentInputs;
 }
 
-Breakout::MovementComponent::MovementComponent(const std::weak_ptr<Object>& _owner) : 
+Breakout::MovementComponent::MovementComponent(const std::weak_ptr<Object>& _owner) :
     BaseComponent(_owner),
     velocity(0.f, 0.f),
     acceleration(0.f, 0.f)
@@ -157,7 +149,6 @@ Breakout::PaddleMovementComponent::PaddleMovementComponent(const std::weak_ptr<O
     boundLeft(_boundLeft),
     boundRight(_boundRight)
 {
-    type = CT_PADDLEMOVEMENTCOMPONENT;
 }
 
 bool Breakout::PaddleMovementComponent::Init()
@@ -173,7 +164,7 @@ void Breakout::PaddleMovementComponent::Update(float dt)
 
     if (inputComp)
     {
-        GameInputs   curInputs = inputComp->GetInputs();
+        GameInputs curInputs = inputComp->GetInputs();
 
         float modifier = curInputs.moveLeft ? -1.0f : 1.0f;
 
@@ -194,7 +185,6 @@ Breakout::CollisionComponent::CollisionComponent(const std::weak_ptr<Object>&   
     BaseComponent(_owner)
 {
     collisionRect = inCollisionShape->getGlobalBounds();
-    type          = CT_COLLISIONCOMPONENT;
 }
 
 CollisionComponent::~CollisionComponent()
@@ -233,11 +223,11 @@ sf::Rect<float> CollisionComponent::GetTransformed()
     return outRect;
 }
 
-bool CollisionComponent::Intersects(CollisionComponent* other) const
+bool CollisionComponent::Intersects(CollisionComponent* other)
 {
-    if (other->collisionRect.intersects(collisionRect))
+    if (other != nullptr)
     {
-        return true;
+        return other->GetTransformed().intersects(GetTransformed());
     }
 
     return false;

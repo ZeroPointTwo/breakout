@@ -18,5 +18,7 @@ namespace Breakout
         std::unique_ptr<RenderSystem> renderSystem;
 
         std::unique_ptr<InputSystem> inputSystem;
+
+        std::unique_ptr<PhysicsSystem> physicsSystem;
     };
 }  // namespace Breakout
