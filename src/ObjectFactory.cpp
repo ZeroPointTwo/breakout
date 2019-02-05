@@ -9,7 +9,7 @@ Breakout::ObjectFactory::~ObjectFactory()
 {
 }
 
-std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::TestCreateBrick(
+std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::CreateBrick(
     float x, float y, float width, float height, sf::Color color)
 {
     Assert(width > 0, "Width must be > 0 (width: {})", width);
@@ -28,6 +28,11 @@ std::shared_ptr<Breakout::Object> Breakout::ObjectFactory::TestCreateBrick(
     std::shared_ptr<Breakout::PositionComponent> position = std::make_shared<Breakout::PositionComponent>(object);
     position->SetPosition(sf::Vector2f(x, y));
     object->AddComponent(position);
+
+    // Collision component
+    std::shared_ptr<Breakout::CollisionComponent> col =
+        std::make_shared<Breakout::CollisionComponent>(object, brickShape);
+    object->AddComponent(col);
 
     // return it
     return object;
@@ -71,8 +76,6 @@ std::shared_ptr<Object> Breakout::ObjectFactory::CreatePaddle(
 std::shared_ptr<Object> Breakout::ObjectFactory::CreateWall(
     float x, float y, float width, float height, sf::Color color)
 {
-    UNUSED_ARGS(color, x, y, width, height);
-
     // Create the object
     auto object = std::make_shared<Breakout::Object>();
 
@@ -92,6 +95,37 @@ std::shared_ptr<Object> Breakout::ObjectFactory::CreateWall(
     // Collision component
     auto col = std::make_shared<Breakout::CollisionComponent>(object, wallShape);
     object->AddComponent(col);
+
+    return object;
+}
+
+std::shared_ptr<Object> Breakout::ObjectFactory::CreateBall(
+    float x, float y, float radius, sf::Color color, const sf::Vector2f& vel)
+{
+    // Create the object
+    auto object = std::make_shared<Breakout::Object>();
+
+    // Ball shape
+    auto ballShape = std::make_shared<sf::CircleShape>(radius);
+    ballShape->setFillColor(color);
+
+    // Render component
+    std::shared_ptr<Breakout::RenderComponent> render = std::make_shared<Breakout::RenderComponent>(object, ballShape);
+    object->AddComponent(render);
+
+    // Position component
+    std::shared_ptr<Breakout::PositionComponent> position = std::make_shared<Breakout::PositionComponent>(object);
+    position->SetPosition(sf::Vector2f(x, y));
+    object->AddComponent(position);
+
+    // Collision component
+    auto col = std::make_shared<Breakout::CollisionComponent>(object, ballShape);
+    object->AddComponent(col);
+
+    // Movement component
+    std::shared_ptr<Breakout::MovementComponent> moveComponent =
+        std::make_shared<Breakout::MovementComponent>(object, vel);
+    object->AddComponent(moveComponent);
 
     return object;
 }

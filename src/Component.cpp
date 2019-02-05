@@ -119,9 +119,9 @@ GameInputs Breakout::InputComponent::GetInputs()
     return currentInputs;
 }
 
-Breakout::MovementComponent::MovementComponent(const std::weak_ptr<Object>& _owner) :
+Breakout::MovementComponent::MovementComponent(const std::weak_ptr<Object>& _owner, const sf::Vector2f& vel) :
     BaseComponent(_owner),
-    velocity(0.f, 0.f),
+    velocity(vel),
     acceleration(0.f, 0.f)
 {
 }
@@ -144,7 +144,7 @@ Breakout::PaddleMovementComponent::PaddleMovementComponent(const std::weak_ptr<O
                                                            float                        _speed,
                                                            float                        _boundLeft,
                                                            float                        _boundRight) :
-    MovementComponent(_owner),
+    MovementComponent(_owner, sf::Vector2f(0, 0)),
     speed(_speed),
     boundLeft(_boundLeft),
     boundRight(_boundRight)

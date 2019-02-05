@@ -81,6 +81,9 @@ void Breakout::BreakoutGame::BeginGame()
     float                    paddle_x      = level["paddle_x"];
     float                    paddle_y      = level["paddle_y"];
     float                    paddle_speed  = level["paddle_speed"];
+    float                    ball_radius   = level["ball_radius"];
+    float                    ball_vel_x    = level["ball_vel_x"];
+    float                    ball_vel_y    = level["ball_vel_y"];
 
     Assert(brick_width > 0, "Invalid brick width: {}", brick_width);
     Assert(brick_height > 0, "Invalid brick height: {}", brick_height);
@@ -104,6 +107,8 @@ void Breakout::BreakoutGame::BeginGame()
     // right
     _gameObjects.push_back(objectFactory->CreateWall(boardWidth, 0, 2, boardHeight, sf::Color::White));
 
+    int offset = 15;
+
     for (auto& row : level_data)
     {
         position.x = 0.0f;
@@ -113,7 +118,7 @@ void Breakout::BreakoutGame::BeginGame()
             switch (element)
             {
                 case 'R':
-                    _gameObjects.push_back(objectFactory->TestCreateBrick(
+                    _gameObjects.push_back(objectFactory->CreateBrick(
                         position.x, position.y, (float)brick_width, (float)brick_height, sf::Color::Red));
                     break;
                 case '-':
@@ -127,6 +132,13 @@ void Breakout::BreakoutGame::BeginGame()
 
         position.y += brick_height + brick_gap;
     }
+
+    // test ball
+    _gameObjects.push_back(objectFactory->CreateBall(paddle_x + paddle_width * 0.5f,
+                                                     paddle_y - offset,
+                                                     ball_radius,
+                                                     sf::Color::Cyan,
+                                                     sf::Vector2f(ball_vel_x, ball_vel_y)));
 
     // for (int i = 0; i < 10; ++i)
     //{

@@ -85,7 +85,7 @@ namespace Breakout
     class MovementComponent : public BaseComponent
     {
       public:
-        MovementComponent(const std::weak_ptr<Object>& _owner);
+        MovementComponent(const std::weak_ptr<Object>& _owner, const sf::Vector2f& vel);
         virtual ~MovementComponent() = default;
         virtual bool         Init() override;
         virtual void         Update(float dt) override;
