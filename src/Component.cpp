@@ -232,3 +232,11 @@ bool CollisionComponent::Intersects(CollisionComponent* other)
 
     return false;
 }
+
+void CollisionComponent::InjectReaction(const std::string& collisionReaction, int channel)
+{
+    UNUSED_ARGS(collisionReaction, channel);
+
+
+}
+

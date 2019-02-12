@@ -34,7 +34,9 @@ set(BREAKOUT_FILES
     src/Clock.h
     src/Clock.cpp
 	src/InputSystem.h
-	src/InputSystem.cpp)
+	src/InputSystem.cpp
+	src/CollisionReaction.h
+	src/CollisionReaction.cpp)
 
 if(NOT UNITY_BUILD)
     set(BUILD_FILES ${BREAKOUT_FILES})

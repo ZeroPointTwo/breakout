@@ -131,6 +131,7 @@ namespace Breakout
         sf::Rect<float> CollisionComponent::GetTransformed();
 
         virtual bool Intersects(CollisionComponent* other);
+        virtual void InjectReaction(const std::string& collisionReaction, int channel);
 
       protected:
         sf::Rect<float> collisionRect;

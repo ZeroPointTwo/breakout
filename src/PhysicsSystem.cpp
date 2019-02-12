@@ -61,7 +61,8 @@ void Breakout::PhysicsSystem::Update(float deltaTime, const std::vector<std::sha
                 // HACK- Technical debt (SJ) - we have collided set our selves back to the previous
                 if (isCollided)
                 {
-                    // TODO: collision handling??
+                    // TODO: collision reaction system
+                    //collisionComp->injectReaction(bounceHandler, channel)
                     // collisionComponent->OnCollided(thing);
                     positionComponent->SetPosition(oldPos);
                 }
