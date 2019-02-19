@@ -2,7 +2,12 @@
 
 using namespace Breakout::Collision;
 
-bool CollisionReactions::GetCollisionReaction(const std::string& reactionName, CollisionChannel channel, std::function<void(const std::string&, CollisionChannel)>& outFunc)
+void Bounce(CollisionChannel channel)
+{
+
+}
+
+bool CollisionReactions::GetCollisionReaction(const std::string& reactionName, CollisionChannel channel, std::function<void(CollisionChannel)>& outFunc)
 {
     bool ret = false;
 
@@ -14,6 +19,12 @@ bool CollisionReactions::GetCollisionReaction(const std::string& reactionName, C
     }
 
     return ret;
+}
+
+CollisionReactions::CollisionReactions() :
+     reactionMap(std::map<std::string, std::function<void(Collision::CollisionChannel)>>())
+{
+    reactionMap["Bounce"] = Bounce;
 }
 
 void CollisionReactions::Init(void)

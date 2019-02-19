@@ -1,5 +1,6 @@
 #include "Component.h"
 #include "Object.h"
+#include "CollisionReaction.h"
 #include "SFML\Graphics\Rect.hpp"
 #include "SFML\Graphics\Shape.hpp"
 #include "SFML\Window\Keyboard.hpp"
@@ -181,8 +182,10 @@ void Breakout::PaddleMovementComponent::UnInit()
 }
 
 Breakout::CollisionComponent::CollisionComponent(const std::weak_ptr<Object>&     _owner,
-                                                 const std::shared_ptr<sf::Shape> inCollisionShape) :
-    BaseComponent(_owner)
+                                                 const std::shared_ptr<sf::Shape> inCollisionShape,
+    const std::string& inCollisionReaction) :
+    BaseComponent(_owner),
+    collisionReaction(inCollisionReaction)
 {
     collisionRect = inCollisionShape->getGlobalBounds();
 }
@@ -193,7 +196,8 @@ CollisionComponent::~CollisionComponent()
 
 bool CollisionComponent::Init()
 {
-    return false;
+        
+    return true;
 }
 
 void CollisionComponent::Update(float dt)

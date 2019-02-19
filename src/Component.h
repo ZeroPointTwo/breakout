@@ -4,6 +4,7 @@
 #include "InputSystem.h"
 #include "SFML/Graphics/Rect.hpp"
 #include "SFML/System/Vector2.hpp"
+#include "CollisionReaction.h"
 
 #include <memory>
 
@@ -122,7 +123,7 @@ namespace Breakout
     class CollisionComponent : public BaseComponent
     {
       public:
-        CollisionComponent(const std::weak_ptr<Object>& _owner, const std::shared_ptr<sf::Shape> inCollisionShape);
+        CollisionComponent(const std::weak_ptr<Object>& _owner, const std::shared_ptr<sf::Shape> inCollisionShape, const std::string& inCollisionName );
 
         virtual ~CollisionComponent() override;
         virtual bool    Init() override;
@@ -131,10 +132,16 @@ namespace Breakout
         sf::Rect<float> CollisionComponent::GetTransformed();
 
         virtual bool Intersects(CollisionComponent* other);
-        virtual void InjectReaction(const std::string& collisionReaction, int channel);
+        virtual void InjectReaction(const std::string& collisionReaction, Collision::CollisionChannel channel);
+
+        inline const std::string& ReadCollisionReaction() const
+        {
+            return collisionReaction;
+        }
 
       protected:
         sf::Rect<float> collisionRect;
+        std::string collisionReaction;
     };
 }  // namespace Breakout
 
