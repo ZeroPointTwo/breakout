@@ -1,22 +1,25 @@
 #pragma once
 #include <map>
 #include <functional>
-//TODO: Compile this, then finish integrating CollisionReactions
-namespace Breakout::Collision
+
+namespace Breakout
 {
-    enum class CollisionChannel
+    namespace Collision
     {
-        CC_NONE = 0
-    };
+        enum class CollisionChannel
+        {
+            CC_NONE = 0
+        };
 
-    class CollisionReactions
-    {
-    public:
-        CollisionReactions();
-        void Init(void);
-        bool GetCollisionReaction(const std::string& reactionName, CollisionChannel channel, std::function<void(CollisionChannel)>& outFunc);
+        class CollisionReaction
+        {
+        public:
+            CollisionReaction();
+            void Init(void);
+            bool GetCollisionReaction(const std::string& reactionName, CollisionChannel channel, std::function<void(CollisionChannel, Object*, const Object*)>& outFunc);
 
-    private:
-        std::map<std::string, std::function<void(CollisionChannel)>> reactionMap;
-    };
+        private:
+            std::map<std::string, std::function<void(CollisionChannel, Object*, const Object*)>> reactionMap;
+        };
+    }
 }

@@ -91,6 +91,17 @@ namespace Breakout
         virtual bool         Init() override;
         virtual void         Update(float dt) override;
         virtual void         UnInit() override;
+
+        inline void SetVelocity(const sf::Vector2f& newVelocity)
+        {
+            velocity = newVelocity;
+        }
+
+        inline void SetAcceleration(const sf::Vector2f& newAcceleration)
+        {
+            acceleration = newAcceleration;
+        }
+
         virtual sf::Vector2f GetVelocity() const
         {
             return velocity;
@@ -132,7 +143,7 @@ namespace Breakout
         sf::Rect<float> CollisionComponent::GetTransformed();
 
         virtual bool Intersects(CollisionComponent* other);
-        virtual void InjectReaction(const std::string& collisionReaction, Collision::CollisionChannel channel);
+        virtual void InjectReaction(const std::string& reactionId, Collision::CollisionChannel channel);
 
         inline const std::string& ReadCollisionReaction() const
         {

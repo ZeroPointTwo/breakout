@@ -183,7 +183,7 @@ void Breakout::PaddleMovementComponent::UnInit()
 
 Breakout::CollisionComponent::CollisionComponent(const std::weak_ptr<Object>&     _owner,
                                                  const std::shared_ptr<sf::Shape> inCollisionShape,
-    const std::string& inCollisionReaction) :
+                                                    const std::string& inCollisionReaction) :
     BaseComponent(_owner),
     collisionReaction(inCollisionReaction)
 {
@@ -237,9 +237,9 @@ bool CollisionComponent::Intersects(CollisionComponent* other)
     return false;
 }
 
-void CollisionComponent::InjectReaction(const std::string& collisionReaction, int channel)
+void CollisionComponent::InjectReaction(const std::string& reactionId, Collision::CollisionChannel channel)
 {
-    UNUSED_ARGS(collisionReaction, channel);
+    UNUSED_ARGS(reactionId, channel);
 
 
 }

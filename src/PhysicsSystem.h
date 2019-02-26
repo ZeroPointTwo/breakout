@@ -13,6 +13,6 @@ namespace Breakout
         void Update(float deltaTime, const std::vector<std::shared_ptr<Object>>& gameObjects);
 
     protected:
-        Collision::CollisionReactions reactions;
+        Collision::CollisionReaction reactions;
     };
 }  // namespace Breakout
