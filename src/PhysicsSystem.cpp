@@ -1,4 +1,5 @@
 #include "PhysicsSystem.h"
+#include "CollisionReaction.h"
 #include "Object.h"
 #include "Util.h"
 
@@ -41,6 +42,7 @@ void Breakout::PhysicsSystem::Update(float deltaTime, const std::vector<std::sha
             if (auto collisionComponent = object->GetComponent<CollisionComponent>())
             {
                 // (TODO: channels)
+                std::shared_ptr<Object> collidedAgainst;
                 for (auto& otherObject : gameObjects)
                 {
                     // Dont compare against current object
@@ -55,6 +57,7 @@ void Breakout::PhysicsSystem::Update(float deltaTime, const std::vector<std::sha
                         if (collisionComponent->Intersects(otherCollisionComp))
                         {
                             isCollided = true;
+                            collidedAgainst = otherObject;
                             break;
                         }
                     }
@@ -63,6 +66,13 @@ void Breakout::PhysicsSystem::Update(float deltaTime, const std::vector<std::sha
                 // HACK- Technical debt (SJ) - we have collided set our selves back to the previous
                 if (isCollided)
                 {
+                    std::function<void(Collision::CollisionChannel, Object*, const Object*)> reaction;
+                    Collision::CollisionChannel channel = Collision::CollisionChannel::CC_NONE;
+                    reactions.GetCollisionReaction(collisionComponent->ReadCollisionReaction(), channel, reaction);
+                    if (reaction != nullptr)
+                    {
+                        reaction(channel, object.get(), collidedAgainst.get());
+                    }
                     // TODO: collision reaction system
                     //collisionComp->injectReaction(bounceHandler, channel)
                     // collisionComponent->OnCollided(thing);

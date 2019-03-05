@@ -4,6 +4,7 @@
 #include "Engine.cpp"
 #include "Game.cpp"
 #include "InputSystem.cpp"
+#include "Math.cpp"
 #include "Object.cpp"
 #include "ObjectFactory.cpp"
 #include "RenderSystem.cpp"

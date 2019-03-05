@@ -1,13 +1,7 @@
 #include "./CollisionReaction.h"
+#include "Math.h"
 
 using namespace Breakout::Collision;
-
-//todo:  move this to correct place
-sf::Vector2f operator* (const sf::Vector2f& a, const sf::Vector2f& b)
-{
-    return sf::Vector2f(a.x * b.x, a.y * b.y);
-}
-
 
 void Bounce(CollisionChannel channel, Object* owner, const Object* collidedAgainst)
 {
@@ -19,9 +13,17 @@ void Bounce(CollisionChannel channel, Object* owner, const Object* collidedAgain
     channel;
 
     sf::Vector2f speedMultipliers(1.f, 1.f);
+    speedMultipliers.y *= -1.f;
+    speedMultipliers.x *= -1.f;
     if (const PaddleMovementComponent* paddle = collidedAgainst->GetComponent<PaddleMovementComponent>())
     {
+        
         //adjust factors
+
+        if (CollisionComponent* otherCollision = collidedAgainst->GetComponent<CollisionComponent>())
+        {
+            //todo:  fix me.  Learn collision
+        }
     }
 
     MovementComponent* vel = owner->GetComponent<MovementComponent>();

@@ -140,7 +140,7 @@ namespace Breakout
         virtual bool    Init() override;
         virtual void    Update(float dt) override;
         virtual void    UnInit() override;
-        sf::Rect<float> CollisionComponent::GetTransformed();
+        sf::Rect<float> GetTransformed();
 
         virtual bool Intersects(CollisionComponent* other);
         virtual void InjectReaction(const std::string& reactionId, Collision::CollisionChannel channel);

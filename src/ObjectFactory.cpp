@@ -119,7 +119,7 @@ std::shared_ptr<Object> Breakout::ObjectFactory::CreateBall(
     object->AddComponent(position);
 
     // Collision component
-    auto col = std::make_shared<Breakout::CollisionComponent>(object, ballShape, "Solid");
+    auto col = std::make_shared<Breakout::CollisionComponent>(object, ballShape, "Bounce");
     object->AddComponent(col);
 
     // Movement component

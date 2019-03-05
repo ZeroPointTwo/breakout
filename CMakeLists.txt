@@ -29,14 +29,16 @@ set(BREAKOUT_FILES
     src/Engine.h
     src/Game.cpp
     src/Game.h
+    src/Math.cpp
+    src/Math.h
     src/ObjectFactory.h
     src/ObjectFactory.cpp
     src/Clock.h
     src/Clock.cpp
-	src/InputSystem.h
-	src/InputSystem.cpp
-	src/CollisionReaction.h
-	src/CollisionReaction.cpp)
+    src/InputSystem.h
+    src/InputSystem.cpp
+    src/CollisionReaction.h
+    src/CollisionReaction.cpp)
 
 if(NOT UNITY_BUILD)
     set(BUILD_FILES ${BREAKOUT_FILES})
