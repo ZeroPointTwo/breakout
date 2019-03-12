@@ -17,12 +17,13 @@ void Bounce(CollisionChannel channel, Object* owner, const Object* collidedAgain
     speedMultipliers.x *= -1.f;
     if (const PaddleMovementComponent* paddle = collidedAgainst->GetComponent<PaddleMovementComponent>())
     {
-        
+
         //adjust factors
 
         if (CollisionComponent* otherCollision = collidedAgainst->GetComponent<CollisionComponent>())
         {
             //todo:  fix me.  Learn collision
+            //otherCollision->
         }
     }
 

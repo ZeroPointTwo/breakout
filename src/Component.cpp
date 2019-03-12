@@ -187,7 +187,11 @@ Breakout::CollisionComponent::CollisionComponent(const std::weak_ptr<Object>&   
     BaseComponent(_owner),
     collisionReaction(inCollisionReaction)
 {
-    collisionRect = inCollisionShape->getGlobalBounds();
+    sf::Rect<float> collisionRect = inCollisionShape->getGlobalBounds();
+    aabb.pos.x = collisionRect.left + collisionRect.width / 2.f;
+    aabb.pos.y = collisionRect.top + collisionRect.height / 2.f;
+    aabb.half.x = collisionRect.width / 2.f;
+    aabb.half.y = collisionRect.height / 2.f;
 }
 
 CollisionComponent::~CollisionComponent()
@@ -209,38 +213,80 @@ void CollisionComponent::UnInit()
 {
 }
 
-sf::Rect<float> CollisionComponent::GetTransformed()
+CollisionComponent::AABB CollisionComponent::GetTransformed()
 {
-    sf::Rect<float> outRect;
+    AABB ret = this->aabb;
 
     if (auto _owner = GetOwner().lock())
     {
         if (auto posComponent = _owner->GetComponent<PositionComponent>())
         {
             auto ourPosition = posComponent->GetPosition();
-            outRect.top      = collisionRect.top + ourPosition.y;
-            outRect.left     = collisionRect.left + ourPosition.x;
-            outRect.height   = collisionRect.height;
-            outRect.width    = collisionRect.width;
+            ret.pos += ourPosition;
         }
     }
-    return outRect;
+
+    return ret;
 }
 
-bool CollisionComponent::Intersects(CollisionComponent* other)
-{
-    if (other != nullptr)
-    {
-        return other->GetTransformed().intersects(GetTransformed());
-    }
+//bool CollisionComponent::Intersects(CollisionComponent* other)
+//{
+//    if (other != nullptr)
+//    {
+//        return other->GetTransformed().intersects(GetTransformed());
+//    }
 
-    return false;
-}
+ //   return false;
+//}
 
 void CollisionComponent::InjectReaction(const std::string& reactionId, Collision::CollisionChannel channel)
 {
     UNUSED_ARGS(reactionId, channel);
 
 
+}
+
+CollisionComponent::AABB CollisionComponent::GetAABB(void)
+{
+    return aabb;
+}
+
+CollisionComponent::Hit CollisionComponent::IntersectAABB(CollisionComponent* other)
+{
+    // TODO: FIX ME
+    Hit hit;
+
+    AABB otherAABB = other->GetAABB();
+
+    float dx = otherAABB.pos.x - this->aabb.pos.x;
+    float px = (otherAABB.half.x + this->aabb.half.x) - abs(dx);
+    if (px <= 0) {
+        hit.isHit = false;
+    }
+
+    float dy = otherAABB.pos.y - this->aabb.pos.y;
+    float py = (otherAABB.half.y + this->aabb.half.y) - abs(dy);
+    if (py <= 0) {
+        hit.isHit = false;
+    }
+    
+    if (px < py) {
+        float sx = dx < 0.f ? -1.f : 1.f;
+        hit.delta.x = px * sx;
+        hit.normal.x = sx;
+        hit.pos.x = this->aabb.pos.x + (this->aabb.half.x * sx);
+        hit.pos.y = otherAABB.pos.y;
+        hit.isHit = true;
+    }
+    else {
+        float sy = dy < 0.f ? -1.f : 1.f;
+        hit.delta.y = py * sy;
+        hit.normal.y = sy;
+        hit.pos.x = otherAABB.pos.x;
+        hit.pos.y = this->aabb.pos.y + (this->aabb.half.y * sy);
+        hit.isHit = true;
+    }
+
+    return hit;
 }
 

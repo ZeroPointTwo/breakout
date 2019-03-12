@@ -133,17 +133,42 @@ namespace Breakout
 
     class CollisionComponent : public BaseComponent
     {
-      public:
+    public:
+
+        struct AABB
+        {
+            sf::Vector2f pos;
+            sf::Vector2f half;
+        };
+
+        struct Hit 
+        {
+            sf::Vector2f pos;
+            sf::Vector2f delta;
+            sf::Vector2f normal;
+            bool isHit;
+
+            Hit()
+            {
+                pos = {0.f, 0.f};
+                delta = { 0.f, 0.f };
+                normal = { 0.f, 0.f };
+                isHit = false;
+            }
+        };
+
         CollisionComponent(const std::weak_ptr<Object>& _owner, const std::shared_ptr<sf::Shape> inCollisionShape, const std::string& inCollisionName );
 
         virtual ~CollisionComponent() override;
         virtual bool    Init() override;
         virtual void    Update(float dt) override;
         virtual void    UnInit() override;
-        sf::Rect<float> GetTransformed();
+        AABB GetTransformed();
 
-        virtual bool Intersects(CollisionComponent* other);
+        //virtual bool Intersects(CollisionComponent* other);
         virtual void InjectReaction(const std::string& reactionId, Collision::CollisionChannel channel);
+        virtual Hit IntersectAABB(CollisionComponent* other);
+        virtual AABB GetAABB(void);
 
         inline const std::string& ReadCollisionReaction() const
         {
@@ -151,7 +176,7 @@ namespace Breakout
         }
 
       protected:
-        sf::Rect<float> collisionRect;
+        AABB aabb;
         std::string collisionReaction;
     };
 }  // namespace Breakout

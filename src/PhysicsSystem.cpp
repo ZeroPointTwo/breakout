@@ -54,7 +54,8 @@ void Breakout::PhysicsSystem::Update(float deltaTime, const std::vector<std::sha
                     // Get other object collision comp
                     if (auto otherCollisionComp = otherObject->GetComponent<CollisionComponent>())
                     {
-                        if (collisionComponent->Intersects(otherCollisionComp))
+                        CollisionComponent::Hit hit = collisionComponent->IntersectAABB(otherCollisionComp);
+                        if (hit.isHit)
                         {
                             isCollided = true;
                             collidedAgainst = otherObject;
