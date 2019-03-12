@@ -9,7 +9,7 @@ The following tools are required and should be added to your PATH environment va
 * [Clang](http://releases.llvm.org/download.html)/[GCC](https://sourceforge.net/projects/mingw-w64/files/Toolchains%20targetting%20Win32/Personal%20Builds/mingw-builds/installer/mingw-w64-install.exe)/MSVC
 
 Also, add the Bincrafters remote to Conan:
-> conan remote add bincrafters conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+> conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 ## Build Scripts
 There are several build scripts for convenience in the _build_scripts_ folder. There is a script for each aspect of the build.
