@@ -1,4 +1,5 @@
 #pragma once
+#include "Math.h"
 #include <map>
 #include <functional>
 
@@ -16,10 +17,12 @@ namespace Breakout
         public:
             CollisionReaction();
             void Init(void);
-            bool GetCollisionReaction(const std::string& reactionName, CollisionChannel channel, std::function<void(CollisionChannel, Object*, const Object*)>& outFunc);
+
+            typedef std::function<void(CollisionChannel, Object*, const Object*, Hit&)> CollisionReactionFunc;
+            bool GetCollisionReaction(const std::string& reactionName, CollisionChannel channel, CollisionReactionFunc& outFunc);
 
         private:
-            std::map<std::string, std::function<void(CollisionChannel, Object*, const Object*)>> reactionMap;
+            std::map<std::string, CollisionReactionFunc> reactionMap;
         };
     }
 }

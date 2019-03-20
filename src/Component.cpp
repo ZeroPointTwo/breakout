@@ -213,7 +213,7 @@ void CollisionComponent::UnInit()
 {
 }
 
-CollisionComponent::AABB CollisionComponent::GetTransformed()
+AABB CollisionComponent::GetTransformed()
 {
     AABB ret = this->aabb;
 
@@ -246,35 +246,37 @@ void CollisionComponent::InjectReaction(const std::string& reactionId, Collision
 
 }
 
-CollisionComponent::AABB CollisionComponent::GetAABB(void)
+AABB CollisionComponent::GetAABB(void)
 {
     return aabb;
 }
 
-CollisionComponent::Hit CollisionComponent::IntersectAABB(CollisionComponent* other)
+Hit CollisionComponent::IntersectAABB(CollisionComponent* other)
 {
-    // TODO: FIX ME
     Hit hit;
 
-    AABB otherAABB = other->GetAABB();
+    AABB thisAABB  = GetTransformed();
+    AABB otherAABB = other->GetTransformed();
 
-    float dx = otherAABB.pos.x - this->aabb.pos.x;
-    float px = (otherAABB.half.x + this->aabb.half.x) - abs(dx);
+    float dx = otherAABB.pos.x - thisAABB.pos.x;
+    float px = (otherAABB.half.x + thisAABB.half.x) - abs(dx);
     if (px <= 0) {
         hit.isHit = false;
+        return hit;
     }
 
-    float dy = otherAABB.pos.y - this->aabb.pos.y;
-    float py = (otherAABB.half.y + this->aabb.half.y) - abs(dy);
+    float dy = otherAABB.pos.y - thisAABB.pos.y;
+    float py = (otherAABB.half.y + thisAABB.half.y) - abs(dy);
     if (py <= 0) {
         hit.isHit = false;
+        return hit;
     }
     
     if (px < py) {
         float sx = dx < 0.f ? -1.f : 1.f;
         hit.delta.x = px * sx;
         hit.normal.x = sx;
-        hit.pos.x = this->aabb.pos.x + (this->aabb.half.x * sx);
+        hit.pos.x = thisAABB.pos.x + (thisAABB.half.x * sx);
         hit.pos.y = otherAABB.pos.y;
         hit.isHit = true;
     }
@@ -283,7 +285,7 @@ CollisionComponent::Hit CollisionComponent::IntersectAABB(CollisionComponent* ot
         hit.delta.y = py * sy;
         hit.normal.y = sy;
         hit.pos.x = otherAABB.pos.x;
-        hit.pos.y = this->aabb.pos.y + (this->aabb.half.y * sy);
+        hit.pos.y = thisAABB.pos.y + (thisAABB.half.y * sy);
         hit.isHit = true;
     }
 
